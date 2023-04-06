@@ -4,17 +4,23 @@
       <el-header>Book Management</el-header>
       <el-container class="layout-container">
         <el-aside width="250px">
-          <el-menu router="true" default-active="" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+          <el-menu router="true" default-active="/Staff/PatronInfo" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
             <el-menu-item index="/Staff/PatronInfo">
               <!-- <el-icon><icon-menu /></el-icon> -->
               <span>Patron Operation</span>
             </el-menu-item>
-            <el-menu-item index="4">
-<!--               <el-icon>
-                <setting />
-              </el-icon> -->
-              <span>Book Operation</span>
-            </el-menu-item>
+            <el-sub-menu index="1">
+              <template #title>
+                
+                <span>Book Operation</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/Staff/AddBook">Add a book</el-menu-item>
+                <el-menu-item index="/Staff/DeleteBook">Delete a book</el-menu-item>
+                <el-menu-item index="/Staff/UpdateBook">Update a book</el-menu-item>
+              </el-menu-item-group>
+            </el-sub-menu>
+              
           </el-menu>
         </el-aside>
         <el-main>
@@ -52,8 +58,7 @@
     .el-menu {
       height: 100%;
       .el-menu-item {
-        display: flex;
-        justify-content: center;
+
       }
     }
   }

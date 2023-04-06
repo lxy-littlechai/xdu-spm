@@ -4,6 +4,9 @@ import Login from "@/components/Login.vue"
 import Patron from "@/components/Patron/Book-search.vue"
 import Staff from "@/components/Staff/Staff.vue"
 import PatronInfo from "@/components/Staff/PatronOp.vue"
+import AddBook from "@/components/Staff/AddBook.vue"
+import DeleteBook from "@/components/Staff/DeleteBook.vue"
+import UpdateBook from "@/components/Staff/UpdateBook.vue"
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -21,8 +24,19 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/Staff/PatronInfo',
         component: PatronInfo,
-
-      }
+      },
+      {
+        path: '/Staff/AddBook',
+        component: AddBook,
+      },
+      {
+        path: '/Staff/DeleteBook',
+        component: DeleteBook,
+      },
+      {
+        path: '/Staff/UpdateBook',
+        component: UpdateBook,
+      },
     ]
   }
 ]
