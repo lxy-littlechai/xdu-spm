@@ -26,7 +26,9 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
+import { useRouter } from "vue-router"
 
+const router = useRouter();
 
 const state = reactive({
   username: '',
@@ -36,6 +38,20 @@ const state = reactive({
 
 const login = () => {
   // TODO: Implement login functionality
+  switch (state.role) {
+    case 'Patron': 
+      router.push({
+        path: '/Patron',
+      })
+      break;
+    case 'Staff':
+      router.push({
+        path: '/Staff',
+      })
+      break;
+    default:
+      break;
+  }
   console.log('Logged in as', state.role, 'with username', state.username, 'and password', state.password)
 }
 
