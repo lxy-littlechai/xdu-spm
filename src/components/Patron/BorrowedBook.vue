@@ -1,7 +1,7 @@
 <template>
   <div class="book-search-page">
-    <!-- <div class="cover-img"></div> -->
-    <div class="Book-search-input">
+<!--     <div class="cover-img"></div> -->
+<!--     <div class="Book-search-input">
       <el-input v-model="searchInput.content" size="large" placeholder="Please input" class="input-with-select">
         <template #prepend>
           <el-select v-model="searchInput.label" size="large" placeholder="Select" style="width: 115px">
@@ -14,7 +14,7 @@
           <el-button :icon="Search" @click="search"/>
         </template>
       </el-input>
-    </div>
+    </div> -->
 
     <div class="book-results">
       <el-row justify="start" gutter="25">
@@ -24,17 +24,17 @@
           :span="4"
           :offset="1"
         >
-          <el-card style="width: 200px; height: 250px; border-radius: 8px; border: 0px;" :body-style="{ border: '0px',padding: '0px' }" shadow="hover">
-            <el-image contain :src="book.img"
+          <el-card style="width: 200px; height: 270px; border-radius: 8px; border: 0px;" :body-style="{ border: '0px',padding: '0px' }" shadow="hover">
+            <img :src="book.img"
               class="image" />
             <div style="padding: 14px">
 
                 <div>BookName: {{book.name}}</div>
                 <div>Author: {{book.author}}</div>
 
-              
+  <!--               <div>Label: {{ book.label }}</div> -->
                 <div>ResNumber: {{ book.resNumber }}</div>
-
+                <div>StartTIme: {{ book.startTime }}</div>
               
               <div class="bottom">
                 <!-- <el-button text class="button">Operating</el-button> -->
@@ -50,8 +50,11 @@
 
 <script lang="ts" setup>
 import { Search } from '@element-plus/icons-vue'
-import { reactive, } from 'vue';
-import { getBookLists } from '@/api/modules/Patron';
+import { reactive, onMounted } from 'vue';
+import { getBorrowedBookLists } from '@/api/modules/Patron';
+import { useStore } from 'vuex'
+
+const store = useStore();
 
 const searchInput = reactive({
   content: '',
@@ -64,11 +67,16 @@ const results: any = reactive({
 })
 
 const search = async() => {
-  const { data } = await getBookLists(searchInput.label);
-  console.log(data);
-  results.bookLists = [...data.bookLists];
-  console.log(results.bookLists)
+  //const res = await getBookLists();
+  //results.bookLists = res.data;
 }
+
+onMounted(async () => {
+  const { data } = await getBorrowedBookLists(store.state.username);
+  
+  results.bookLists = [...data.bookLists];
+  console.log(data)
+})
 
 
 </script>
@@ -82,7 +90,7 @@ const search = async() => {
   position: relative;
   width: 100%;
   height: auto;
-  
+  padding-top: 100px;
 
   .cover-img {
     position: fixed;
@@ -90,6 +98,7 @@ const search = async() => {
     left: 0;
     width: 100%;
     height: 100%;
+    background-image: url(https://s.cn.bing.net/th?id=OHR.QingMing2023_ZH-CN6951199028_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&qlt=50);
 
     background-image: url(https://s.cn.bing.net/th?id=OHR.QingMing2023_ZH-CN6951199028_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&qlt=50);
     background-size: cover;
@@ -101,12 +110,9 @@ const search = async() => {
     height: auto;
     padding: 10rem 0;
     margin: 0rem auto;
-    
   }
 
   .book-results {
-
-
     .el-row {
       margin-bottom: 20px;
     }

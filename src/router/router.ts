@@ -1,12 +1,18 @@
 import { createRouter, createWebHistory } from "vue-router"
 import type { RouteRecordRaw } from "vue-router"
 import Login from "@/components/Login.vue"
-import Patron from "@/components/Patron/Book-search.vue"
+import Patron from "@/components/Patron/Patron.vue"
+import BorrowedBook from "@/components/Patron/BorrowedBook.vue"
+import BookSearch from "@/components/Patron/Book-search.vue"
 import Staff from "@/components/Staff/Staff.vue"
 import PatronInfo from "@/components/Staff/PatronOp.vue"
 import AddBook from "@/components/Staff/AddBook.vue"
 import DeleteBook from "@/components/Staff/DeleteBook.vue"
 import UpdateBook from "@/components/Staff/UpdateBook.vue"
+import Administrator from "@/components/Administrator/Administrator.vue"
+import Permission from "@/components/Administrator/Permission.vue"
+import Superuser from "@/components/Administrator/superuser.vue"
+import CreateAccount from "@/components/Administrator/CreateAccount.vue"
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -15,11 +21,22 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/Patron',
-    component: Patron
+    component: Patron,
+    children: [
+      {
+        path: '/Patron/BookSearch',
+        component: BookSearch
+      },
+      {
+        path: '/Patron/BorrowedBook',
+        component: BorrowedBook
+      }
+    ]
   },
   {
     path: '/Staff',
     component: Staff,
+    redirect: '/Staff/PatronInfo',
     children: [
       {
         path: '/Staff/PatronInfo',
@@ -37,6 +54,20 @@ const routes: Array<RouteRecordRaw> = [
         path: '/Staff/UpdateBook',
         component: UpdateBook,
       },
+    ]
+  },
+  {
+    path: '/Administrator',
+    component: Administrator,
+    children: [
+      {
+        path: '/Administrator/Permission',
+        component: Permission,
+      },
+      {
+        path: '/Administrator/CreateAccount',
+        component: CreateAccount,
+      }
     ]
   }
 ]

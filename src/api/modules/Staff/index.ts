@@ -3,16 +3,54 @@ const { post } = baseInstance;
 
 import { addBookParams, IdBookParams, ResBookParams, UserParams } from "./types";
 
-const addBook = (params: addBookParams) => {
-  return post<ResBookParams>("/url", params);
+const getBookByISBN = (ISBN: any) => {
+  return baseInstance({
+    url: "/Staff/GetBookByISBN",
+    method: "get",
+    data: {
+      ISBN
+    }
+  });
 }
 
-const deleteBook = (params: IdBookParams) => {
-  return post<ResBookParams>("/url", params);
+const addBook = (book: any) => {
+  return baseInstance({
+    url: "/Staff/AddBook",
+    method: "post",
+    data: {
+      book
+    }
+  });
 }
 
-const clearFee = (params: UserParams) => {
-  return post<ResBookParams>("/url", params);
+const deleteBook = (ISBN: any) => {
+  return baseInstance({
+    url: "/Staff/DeleteBook",
+    method: "post",
+    data: {
+      ISBN
+    }
+  });
 }
 
-export { addBook, deleteBook, clearFee }
+const updateBook = (book: any) => {
+  return baseInstance({
+    url: "/Staff/UpdateBook",
+    method: "post",
+    data: {
+      book
+    }
+  });
+}
+
+const returnBook = (book: any) => {
+  return baseInstance({
+    url: "/Staff/ReturnBook",
+    method: "post",
+    data: {
+      book
+    }
+  });
+}
+
+export { getBookByISBN, addBook, deleteBook, updateBook, returnBook }

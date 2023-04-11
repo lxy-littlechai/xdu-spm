@@ -2,14 +2,14 @@ import { BookParams } from "./Book/types"
 import { BorrowedBookParams } from "./BorrowedBook/types"
 
 export interface BookLists {
-  bookLists: BookParams
+  bookLists: Array<BookParams>
 }
 
 export interface BorrowedBookLists {
-  bookLists: BorrowedBookParams
+  bookLists: Array<BorrowedBookParams>
 }
 
 export interface HistoryBookLists {
-  bookLists: HistoryBookLists
+  bookLists: Array<HistoryBookLists>
 }
 

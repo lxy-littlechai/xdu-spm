@@ -1,9 +1,25 @@
 import { baseInstance } from "@/api/instance";
 const { post } = baseInstance;
-import { AccountParams, ResAccountParams } from "./types";
 
-const createAccount = (params: AccountParams) => {
-  return post<ResAccountParams>("/url", params);
+
+const createAccount = (account: any) => {
+  return baseInstance({
+    url: "/Administrator/CreateAccount",
+    method: "post",
+    data: {
+      account
+    }
+  });
 }
 
-export { createAccount }
+const changePermission = (account: any) => {
+  return baseInstance({
+    url: "/Administrator/ChangePermission",
+    method: "post",
+    data: {
+      account
+    }
+  });
+}
+
+export { createAccount, changePermission }

@@ -21,13 +21,17 @@
         </select>      </div>
       <button type="submit" class="login-button" @click.prevent="login">Login</button>
     </form>
+    <div class="copyright">Class 2 Group B5</div>
   </div>
+  
 </template>
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { useRouter } from "vue-router"
+import { useStore } from 'vuex'
 
+const store = useStore();
 const router = useRouter();
 
 const state = reactive({
@@ -37,7 +41,7 @@ const state = reactive({
 })
 
 const login = () => {
-  // TODO: Implement login functionality
+  store.commit('setUser', state.username);
   switch (state.role) {
     case 'Patron': 
       router.push({
@@ -49,6 +53,11 @@ const login = () => {
         path: '/Staff',
       })
       break;
+    case 'Administrator':
+      router.push({
+        path: '/Administrator',
+      })
+      break;
     default:
       break;
   }
@@ -57,6 +66,11 @@ const login = () => {
 
 </script>
 <style scoped>
+
+.copyright {
+  margin-top: 80px;
+  font-size: 30px;
+}
 .login-container {
   display: flex;
   flex-direction: column;
