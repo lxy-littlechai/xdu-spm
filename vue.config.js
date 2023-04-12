@@ -2,7 +2,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'https://mock.apifox.cn/m1/2570916-0-default',
+        target: 'http://localhost:3000',
         // 是否允许跨域
         changeOrigin: true,
         secure: true, // 如果是https接口，需要配置这个参数

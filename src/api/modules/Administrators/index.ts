@@ -1,25 +1,28 @@
 import { baseInstance } from "@/api/instance";
 const { post } = baseInstance;
 
+const getAccount = (data: any) => {
+  return baseInstance({
+    url: "/Administrator/GetAccount",
+    method: "post",
+    data
+  })
+}
 
-const createAccount = (account: any) => {
+const createAccount = (data: any) => {
   return baseInstance({
     url: "/Administrator/CreateAccount",
     method: "post",
-    data: {
-      account
-    }
+    data
   });
 }
 
-const changePermission = (account: any) => {
+const changePermission = (data: any) => {
   return baseInstance({
     url: "/Administrator/ChangePermission",
     method: "post",
-    data: {
-      account
-    }
+    data
   });
 }
 
-export { createAccount, changePermission }
+export { createAccount, changePermission, getAccount }

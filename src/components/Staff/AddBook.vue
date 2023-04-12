@@ -23,9 +23,9 @@
     <el-form-item label="ISBN" prop="ISBN">
       <el-input v-model="ruleForm.ISBN" />
     </el-form-item>
-    <el-form-item label="Book number" prop="number">
+    <el-form-item label="Book number" prop="resNumber">
       <el-select-v2
-        v-model="ruleForm.number"
+        v-model="ruleForm.resNumber"
         placeholder="Book number"
         :options="options"
       />
@@ -64,8 +64,9 @@ const ruleForm = reactive({
   name: '',
   author: '',
   label: [],
-  number: '',
+  resNumber: '',
   ISBN: '',
+  img: 'https://pdcapi.capub.cn/image/mm6w22lyez2d2mrqez4t2mjqeztdcpjpn5yhil3enfzwwmrporuwc3tnmfxs6ytpn5vws3lhomxtembsgiydgmrzga4c6ojxha3tkmjxhaydinjvgawucmjgmyzd2l3pob2c6zdjonvtel3qmrrtembqfzyg4zzgnu6tkma/a.png',
 })
 
 const rules = reactive<FormRules>({
@@ -87,7 +88,7 @@ const rules = reactive<FormRules>({
       trigger: 'change',
     },
   ],
-  number: [
+  resNumber: [
     {
       required: true,
       message: 'Please select Activity count',

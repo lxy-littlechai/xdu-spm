@@ -5,9 +5,9 @@
       <el-input v-model="searchInput.content" size="large" placeholder="Please input" class="input-with-select">
         <template #prepend>
           <el-select v-model="searchInput.label" size="large" placeholder="Select" style="width: 115px">
-            <el-option label="Author" value="1" />
-            <el-option label="Book" value="2" />
-            <el-option label="Type" value="3" />
+            <el-option label="Author" value="author" />
+            <el-option label="BookName" value="name" />
+            <!-- <el-option label="Type" value="3" /> -->
           </el-select>
         </template>
         <template #append>
@@ -24,7 +24,7 @@
           :span="4"
           :offset="1"
         >
-          <el-card style="width: 200px; height: 250px; border-radius: 8px; border: 0px;" :body-style="{ border: '0px',padding: '0px' }" shadow="hover">
+          <el-card style="width: 200px; height: 280px; border-radius: 8px; border: 0px;" :body-style="{ border: '0px',padding: '0px' }" shadow="hover">
             <el-image contain :src="book.img"
               class="image" />
             <div style="padding: 14px">
@@ -64,9 +64,9 @@ const results: any = reactive({
 })
 
 const search = async() => {
-  const { data } = await getBookLists(searchInput.label);
+  const { data } = await getBookLists(searchInput);
   console.log(data);
-  results.bookLists = [...data.bookLists];
+  results.bookLists = [...data.result];
   console.log(results.bookLists)
 }
 

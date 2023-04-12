@@ -10,7 +10,7 @@
         <label for="password">Password</label>
         <input type="password" id="password" v-model="state.password" required>
       </div>
-      <div class="form-group">
+<!--       <div class="form-group">
         <label for="role">Role</label>
         <select id="role" v-model="state.role" required>
           <option value="" disabled>Select your role</option>
@@ -18,18 +18,20 @@
           <option value="Administrator">Administrator</option>
           <option value="Staff">Staff</option>
           <option value="Superuser">Superuser</option>
-        </select>      </div>
+        </select>
+      </div> -->
       <button type="submit" class="login-button" @click.prevent="login">Login</button>
     </form>
     <div class="copyright">Class 2 Group B5</div>
   </div>
-  
 </template>
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { useRouter } from "vue-router"
 import { useStore } from 'vuex'
+import { loginAccount } from "@/api"
+import {success, error} from "@/api"
 
 const store = useStore();
 const router = useRouter();
@@ -37,40 +39,48 @@ const router = useRouter();
 const state = reactive({
   username: '',
   password: '',
-  role: ''
 })
 
-const login = () => {
-  store.commit('setUser', state.username);
-  switch (state.role) {
-    case 'Patron': 
-      router.push({
-        path: '/Patron',
-      })
-      break;
-    case 'Staff':
-      router.push({
-        path: '/Staff',
-      })
-      break;
-    case 'Administrator':
-      router.push({
-        path: '/Administrator',
-      })
-      break;
-    default:
-      break;
+const login = async () => {
+  
+  const {data} = await loginAccount(state);
+  console.log(data)
+  if (data.success) {
+    store.commit('setUser', state.username);
+    switch (data.permission) {
+      case 'Patron':
+        router.push({
+          path: '/Patron',
+        })
+        break;
+      case 'Staff':
+        router.push({
+          path: '/Staff',
+        })
+        break;
+      case 'Administrator':
+        router.push({
+          path: '/Administrator',
+        })
+        break;
+      default:
+        break;
+    }
   }
-  console.log('Logged in as', state.role, 'with username', state.username, 'and password', state.password)
+  else {
+    error("Error in usename or password");
+  }
+
+
 }
 
 </script>
 <style scoped>
-
 .copyright {
   margin-top: 80px;
   font-size: 30px;
 }
+
 .login-container {
   display: flex;
   flex-direction: column;
@@ -104,7 +114,8 @@ const login = () => {
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
-  align-items: flex-start; /* Add this line to align items to the left */
+  align-items: flex-start;
+  /* Add this line to align items to the left */
 }
 
 label {
@@ -112,9 +123,12 @@ label {
   margin-bottom: 0.5rem;
   font-family: Arial, sans-serif;
   color: #333;
-  width: 100%; /* Add this line to make the label take up the full width */
-  display: inline-block; /* Add this line to make the label inline with the input/select */
+  width: 100%;
+  /* Add this line to make the label take up the full width */
+  display: inline-block;
+  /* Add this line to make the label inline with the input/select */
 }
+
 input[type="text"],
 input[type="password"],
 select {
@@ -136,5 +150,4 @@ select {
   border-radius: 0.5rem;
   cursor: pointer;
   font-family: Arial, sans-serif;
-}
-</style>
+}</style>

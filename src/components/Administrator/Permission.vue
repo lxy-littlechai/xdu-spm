@@ -1,15 +1,15 @@
 <template>
   <el-card>
-    <el-input v-model="formData.searchId" type="text" clearable>
+    <el-input v-model="formData.searchName" type="text" clearable>
       <template #append>
-        <!-- <el-button :icon="Search"  /> -->
+        <el-button :icon="Search" @click="getUser" />
       </template>
     </el-input>
     <el-table :data="tableData.tableData" style="width: 100%">
       <el-table-column label="Name" width="180">
         <template #default="scope">
           <div style="display: flex; align-items: center">
-            <span style="margin-left: 10px">{{ scope.row.name }}</span>
+            <span style="margin-left: 10px">{{ scope.row.username }}</span>
           </div>
         </template>
       </el-table-column>
@@ -39,20 +39,35 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import { Timer } from '@element-plus/icons-vue'
-import { changePermission } from '@/api/modules/Administrators';
-import {success, error} from "@/api"
+import { changePermission, getAccount } from '@/api/modules/Administrators';
+import { success, error } from "@/api"
+
+const getUser = async () => {
+  const username = formData.searchName;
+  const { data } = await getAccount({ username });
+  console.log(data)
+  if (data.result == false) {
+    error("NetWork Error");
+  }
+  else {
+    tableData.tableData = data.result;
+  }
+}
+onMounted(() => {
+  getUser();
+})
 
 const formData = reactive({
-  searchId: ""
+  searchName: ""
 })
 
 const options = ["Patron", "Staff"]
 interface User {
-  name: string
+  username: string
   permission: string
 }
 
@@ -62,25 +77,20 @@ const handleEdit = (index: number, row: User) => {
   console.log(index, row)
 }
 const tableData = reactive({
-  tableData: [
-    {
-      name: '1',
-      permission: 'Patron',
-    },
-  ]
+  tableData: []
 })
 
 const changePermission1 = async (item: any) => {
   const account = {
-    name: item.name,
+    username: item.username,
     permission: item.permission
   }
-  const { data } = await changePermission({account});
-      if(data.success) {
-        success()
-      } else {
-        error();
-      }
+  const { data } = await changePermission(account);
+  if (data.success) {
+    success()
+  } else {
+    error("Network Error");
+  }
 
 }
 

@@ -4,24 +4,19 @@ import { BookLists, BorrowedBookLists, HistoryBookLists } from "./types";
 import { BookParams } from "./Book/types";
 import axios from "axios";
 
-const getBookLists = (label: string) => {
+const getBookLists = (data: any) => {
   return baseInstance({
     url: "/Patron/BookSearch",
     method: 'post',
-    data: {
-      label: label
-
-    }
+    data
   });
 }
 
-const getBorrowedBookLists = (username: string) => {
+const getBorrowedBookLists = (data: any) => {
   return baseInstance({
-    url: "/Patron/getBorrowedBook",
-    method: 'get',
-    data: {
-      username
-    }
+    url: "/Patron/GetBorrowedBook",
+    method: 'post',
+    data
   });
 }
 

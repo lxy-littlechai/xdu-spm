@@ -63,13 +63,17 @@ const formData = reactive({
   searchISBN: "",
 })
 const searchBook = async () => {
-  const { data } = await getBookByISBN(formData.searchISBN);
+  const ISBN = formData.searchISBN;
+  const { data } = await getBookByISBN({ISBN});
   console.log(data)
-  if(data.ISBN) {
-    ruleForm.book = data;
+  if(data.result == false) {
+    error("No this book");
+  }
+  else if(data.success) {
+    ruleForm.book = data.result[0];
     console.log(ruleForm.book)
   } else {
-    error();
+    error("Network Error");
   }
 }
 
@@ -127,11 +131,21 @@ const rules = reactive<FormRules>({
 
 })
 
+const clear = () => {
+    ruleForm.book.name = '';
+    ruleForm.book.author = '';
+    ruleForm.book.ISBN = '';
+    ruleForm.book.resNumber = '';
+    formData.searchISBN = '';
+}
+
 const deleteBook1 = async () => {
-  const { data } = await deleteBook(formData.searchISBN);
+  const ISBN = formData.searchISBN
+  const { data } = await deleteBook({ISBN});
   if(data.success) {
-    success()
-    resetForm(ruleFormRef);
+    success();
+    clear();
+
   } else {
     error();
   }

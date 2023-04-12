@@ -63,12 +63,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-      const { data } = await createAccount({account});
+      const { data } = await createAccount(account);
       if(data.success) {
         success()
         resetForm(formEl);
       } else {
-        error();
+        error("Network Error");
       }
       console.log('submit!')
     } else {

@@ -3,54 +3,52 @@ const { post } = baseInstance;
 
 import { addBookParams, IdBookParams, ResBookParams, UserParams } from "./types";
 
-const getBookByISBN = (ISBN: any) => {
+const getBookByISBN = (data: any) => {
   return baseInstance({
     url: "/Staff/GetBookByISBN",
-    method: "get",
-    data: {
-      ISBN
-    }
+    method: "post",
+    data
   });
 }
 
-const addBook = (book: any) => {
+const addBook = (data: any) => {
   return baseInstance({
     url: "/Staff/AddBook",
     method: "post",
-    data: {
-      book
-    }
+    data
   });
 }
 
-const deleteBook = (ISBN: any) => {
+const deleteBook = (data: any) => {
   return baseInstance({
     url: "/Staff/DeleteBook",
     method: "post",
-    data: {
-      ISBN
-    }
+    data
   });
 }
 
-const updateBook = (book: any) => {
+const updateBook = (data: any) => {
   return baseInstance({
     url: "/Staff/UpdateBook",
     method: "post",
-    data: {
-      book
-    }
+    data
   });
 }
 
-const returnBook = (book: any) => {
+const borrowBook = (data: any) => {
+  return baseInstance({
+    url: "/Staff/BorrowBook",
+    method: "post",
+    data
+  });
+}
+
+const returnBook = (data: any) => {
   return baseInstance({
     url: "/Staff/ReturnBook",
     method: "post",
-    data: {
-      book
-    }
+    data
   });
 }
 
-export { getBookByISBN, addBook, deleteBook, updateBook, returnBook }
+export { getBookByISBN, addBook, deleteBook, updateBook, returnBook, borrowBook }

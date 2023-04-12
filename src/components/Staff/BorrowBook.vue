@@ -1,5 +1,7 @@
 <template>
-  <el-input v-model="formData.searchISBN" placeholder="Input the ISBN of book to update" type="text" clearable>
+  <el-input v-model="formData.name" placeholder="Input the username" type="text" clearable>
+  </el-input>
+  <el-input v-model="formData.searchISBN" placeholder="Input the ISBN of book to borrow" type="text" clearable>
     <template #append>
       <el-button :icon="Search" @click="searchBook" />
     </template>
@@ -36,7 +38,7 @@
 
       <el-form-item>
         <el-button type="primary" @click="submitForm(ruleFormRef)">
-          Update
+          Borrow
         </el-button>
         <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
       </el-form-item>
@@ -48,14 +50,15 @@
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
-import { getBookByISBN, updateBook } from '@/api/modules/Staff';
-import { success, error } from "@/api"
+import { getBookByISBN, borrowBook } from '@/api/modules/Staff';
+import { success, error, getNowFormatDate } from "@/api"
 
 const formData = reactive({
+  name: "",
   searchISBN: "",
 })
 const searchBook = async () => {
-  const ISBN = formData.searchISBN;
+  const ISBN = formData.searchISBN
   const { data } = await getBookByISBN({ISBN});
   console.log(data)
   if(data.result == false) {
@@ -79,6 +82,7 @@ const ruleForm = reactive({
     label: [],
     resNumber: '',
     ISBN: '',
+
   }
 })
 
@@ -126,13 +130,16 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-      const { data } = await updateBook(ruleForm.book);
+      const body = Object.assign(ruleForm.book, {name: formData.name, startTime: getNowFormatDate()})
+      console.log(body)
+      const { data } = await borrowBook(body);
       if (data.success) {
         success()
         resetForm(formEl);
+        formData.name = "";
         formData.searchISBN = "";
       } else {
-        error("Network Error");
+        error();
       }
     } else {
       console.log('error submit!', fields)

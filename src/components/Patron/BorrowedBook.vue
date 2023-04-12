@@ -24,7 +24,7 @@
           :span="4"
           :offset="1"
         >
-          <el-card style="width: 200px; height: 270px; border-radius: 8px; border: 0px;" :body-style="{ border: '0px',padding: '0px' }" shadow="hover">
+          <el-card style="width: 220px; height: 300px; border-radius: 8px; border: 0px;" :body-style="{ border: '0px',padding: '0px' }" shadow="hover">
             <img :src="book.img"
               class="image" />
             <div style="padding: 14px">
@@ -35,7 +35,7 @@
   <!--               <div>Label: {{ book.label }}</div> -->
                 <div>ResNumber: {{ book.resNumber }}</div>
                 <div>StartTIme: {{ book.startTime }}</div>
-              
+                <div>Fee: {{ book.fee }}</div>
               <div class="bottom">
                 <!-- <el-button text class="button">Operating</el-button> -->
               </div>
@@ -53,6 +53,7 @@ import { Search } from '@element-plus/icons-vue'
 import { reactive, onMounted } from 'vue';
 import { getBorrowedBookLists } from '@/api/modules/Patron';
 import { useStore } from 'vuex'
+import { caculateFee } from '@/api'
 
 const store = useStore();
 
@@ -72,10 +73,17 @@ const search = async() => {
 }
 
 onMounted(async () => {
-  const { data } = await getBorrowedBookLists(store.state.username);
-  
-  results.bookLists = [...data.bookLists];
+  const username = store.state.username;
+  const { data } = await getBorrowedBookLists({username});
   console.log(data)
+  const booklists = data.result.map((item: any) => {
+    item.startTime = item.startTime.substring(0, 10);
+    console.log(item.startTime)
+    item.fee = caculateFee(item.startTime);
+    return item;
+  })
+  results.bookLists = [...booklists];
+  
 })
 
 

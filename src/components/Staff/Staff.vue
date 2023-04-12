@@ -1,7 +1,11 @@
 <template>
   <div class="common-layout">
     <el-container>
-      <el-header>Book Management</el-header>
+      <el-header>Book Management
+        <div class="flex-grow" />
+        <el-button @click="logout">Logout</el-button>
+      </el-header>
+
       <el-container class="layout-container">
         <el-aside width="250px">
           <el-menu router="true" default-active="/Staff/PatronInfo" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
@@ -18,6 +22,7 @@
                 <el-menu-item index="/Staff/AddBook">Add a book</el-menu-item>
                 <el-menu-item index="/Staff/DeleteBook">Delete a book</el-menu-item>
                 <el-menu-item index="/Staff/UpdateBook">Update a book</el-menu-item>
+                <el-menu-item index="/Staff/BorrowBook">Borrow a book</el-menu-item>
               </el-menu-item-group>
             </el-sub-menu>
               
@@ -31,8 +36,12 @@
   </div>
 </template>
 
-<script>
-
+<script lang="ts" setup>
+import { useRouter } from "vue-router"
+const router = useRouter();
+const logout = () => router.push({
+  path: "/"
+})
 
 </script>
 
@@ -47,6 +56,9 @@
     align-items: center;
     font-size: 20px;
     color: white;
+    .flex-grow {
+     flex-grow: 1;
+    }
   }
 
   .layout-container {
