@@ -24,7 +24,7 @@
           :span="4"
           :offset="1"
         >
-          <el-card style="width: 200px; height: 280px; border-radius: 8px; border: 0px;" :body-style="{ border: '0px',padding: '0px' }" shadow="hover">
+          <el-card style="width: 200px; height: 280px; border-radius: 8px; border: 0px;" :body-style="{ border: '0px',padding: '0px' }" shadow="always">
             <el-image contain :src="book.img"
               class="image" />
             <div style="padding: 14px">

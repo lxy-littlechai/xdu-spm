@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <h1 class="login-title">Library Login</h1>
+    <h1 class="login-title">Welcome to the British Library</h1>
     <form class="login-form">
       <div class="form-group">
         <label for="username">Username</label>
@@ -79,6 +79,7 @@ const login = async () => {
 .copyright {
   margin-top: 80px;
   font-size: 30px;
+  color: #fff;
 }
 
 .login-container {
@@ -87,14 +88,16 @@ const login = async () => {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f5f5f5;
+  background-image: url("../assets/british-library.jpg");
+  background-size:auto;
+  background-repeat: no-repeat;
 }
 
 .login-title {
   font-size: 3rem;
   margin-bottom: 2rem;
   font-family: Arial, sans-serif;
-  color: #333;
+  color: #ffffff;
 }
 
 .login-form {
@@ -106,7 +109,7 @@ const login = async () => {
   padding: 2rem;
   border: 1px solid #ccc;
   border-radius: 0.5rem;
-  background-color: #fff;
+  background-color: rgba(255,255,255, 1);
 }
 
 .form-group {

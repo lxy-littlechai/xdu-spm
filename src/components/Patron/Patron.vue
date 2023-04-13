@@ -28,13 +28,14 @@ import { ref } from 'vue'
 <style lang="scss" scoped>
 .container {
   position: relative;
-
   .cover {
     position: fixed;
     width: 100%;
     height: 100vh;
     z-index: -999;
-    background-image: url(https://s.cn.bing.net/th?id=OHR.QingMing2023_ZH-CN6951199028_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&qlt=50);
+    background-image: url(../../assets/british-library.jpg);
+    background-size:cover;
+    background-repeat: no-repeat;
   }
   
   
