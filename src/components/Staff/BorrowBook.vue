@@ -14,17 +14,17 @@
     </template>
     <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm" :size="formSize"
       status-icon>
-      <el-form-item label="Book name" prop="book.name">
-        <el-input v-model="ruleForm.book.name" />
+      <el-form-item label="Book name" prop="book.name" >
+        <el-input v-model="ruleForm.book.name" readonly />
       </el-form-item>
-      <el-form-item label="Author" prop="book.author">
-        <el-input v-model="ruleForm.book.author" />
+      <el-form-item label="Author" prop="book.author" >
+        <el-input v-model="ruleForm.book.author" readonly/>
       </el-form-item>
-      <el-form-item label="ISBN" prop="book.ISBN">
-        <el-input v-model="ruleForm.book.ISBN" />
+      <el-form-item label="ISBN" prop="book.ISBN" >
+        <el-input v-model="ruleForm.book.ISBN" readonly/>
       </el-form-item>
-      <el-form-item label="Book number" prop="book.resNumber">
-        <el-select-v2 v-model="ruleForm.book.resNumber" placeholder="Book number" :options="options" />
+      <el-form-item label="Book number" prop="book.resNumber" >
+        <el-input v-model="ruleForm.book.resNumber" readonly/>
       </el-form-item>
 
       <!--     <el-form-item label="Book label" prop="label">
@@ -51,12 +51,31 @@ import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import { getBookByISBN, borrowBook } from '@/api/modules/Staff';
+import { getBorrowedBookLists } from '@/api/modules/Patron';
 import { success, error, getNowFormatDate } from "@/api"
+import { caculateFee } from '@/api'
 
 const formData = reactive({
   name: "",
   searchISBN: "",
 })
+const checkFeeLimit = async() => {
+  const feeLimit = 10;
+  let check = true;
+  const username = formData.name;
+  const { data } = await getBorrowedBookLists({username});
+  const booklists = data.result.map((item: any) => {
+    item.startTime = item.startTime.substring(0, 10);
+    item.fee = caculateFee(item.startTime);
+    if(item.fee > feeLimit) {
+      check = false;
+    }
+    return item;
+  })
+  console.log(check);
+  return check;
+}
+
 const searchBook = async () => {
   const ISBN = formData.searchISBN
   const { data } = await getBookByISBN({ISBN});
@@ -126,20 +145,31 @@ const rules = reactive<FormRules>({
 
 })
 
+const clear = (formEl: FormInstance | undefined) => {
+  resetForm(formEl);
+  formData.name = "";
+  formData.searchISBN = "";
+}
+
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async (valid, fields) => {
+    const checkFeeResult = await checkFeeLimit();
+    if(checkFeeResult == false) {
+      clear(formEl)
+      error("This patron has a fee to pay off")
+      return ;
+    }
+
     if (valid) {
       const body = Object.assign(ruleForm.book, {name: formData.name, startTime: getNowFormatDate()})
       console.log(body)
       const { data } = await borrowBook(body);
       if (data.success) {
         success()
-        resetForm(formEl);
-        formData.name = "";
-        formData.searchISBN = "";
+        clear(formEl)
       } else {
-        error();
+        error("Network Error");
       }
     } else {
       console.log('error submit!', fields)

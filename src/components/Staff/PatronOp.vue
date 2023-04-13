@@ -1,7 +1,7 @@
 <template>
   <el-form :model="formData" ref="vForm" label-position="left" label-width="80px" size="default" @submit.prevent>
     <el-form-item label="input" label-width="150px" prop="Patron-search" class="label-center-align">
-      <el-input v-model="formData.patronName" type="text" clearable>
+      <el-input v-model="formData.patronName" placeholder="Please input the patron name" type="text" clearable>
         <template #append>
           <el-button :icon="Search" @click="searchPatron"/>
         </template>
