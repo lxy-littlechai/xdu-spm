@@ -39,7 +39,10 @@
         <el-checkbox label="Simple brand exposure" name="label" />
       </el-checkbox-group>
     </el-form-item> -->
-
+    <el-form-item>
+      <UploadImg @getImgURL="getImgURL"></UploadImg>
+    </el-form-item>
+    
     <el-form-item>
       <el-button type="primary" @click="submitForm(ruleFormRef)">
         Add new books
@@ -52,10 +55,17 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { addBook } from '@/api/modules/Staff';
 import {success, error} from "@/api"
+import UploadImg from "@/components/Public/upload.vue"
+
+defineComponent ({
+  components: {
+    UploadImg
+  }
+})
 
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
@@ -66,7 +76,7 @@ const ruleForm = reactive({
   label: [],
   resNumber: '',
   ISBN: '',
-  img: 'https://pdcapi.capub.cn/image/mm6w22lyez2d2mrqez4t2mjqeztdcpjpn5yhil3enfzwwmrporuwc3tnmfxs6ytpn5vws3lhomxtembsgiydgmrzga4c6ojxha3tkmjxhaydinjvgawucmjgmyzd2l3pob2c6zdjonvtel3qmrrtembqfzyg4zzgnu6tkma/a.png',
+  img: '',
 })
 
 const rules = reactive<FormRules>({
@@ -109,12 +119,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async (valid, fields) => {
     if (valid) {
+      console.log(ruleForm.img)
       const { data } = await addBook(ruleForm);
       if(data.success) {
         success()
         resetForm(formEl);
       } else {
-        error();
+        error("Network Error");
       }
     } else {
       console.log('error submit!', fields)
@@ -125,6 +136,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
+}
+
+const getImgURL = (url: string) => {
+  ruleForm.img = url;
+  console.log('get', url)
 }
 
 const options = Array.from({ length: 10000 }).map((_, idx) => ({

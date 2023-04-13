@@ -10,7 +10,12 @@ module.exports = {
         pathRewrite: {
           '^/api': '/'
         }
-      }
+      },
+      /*       'https://imgloc.com/api/1/upload': {
+              target: 'https://imgloc.com/api/1/upload',
+              changeOrigin: true,
+              secure: true
+            } */
     }
   }
 }

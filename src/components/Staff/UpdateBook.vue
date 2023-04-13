@@ -33,6 +33,9 @@
         <el-checkbox label="Simple brand exposure" name="label" />
       </el-checkbox-group>
     </el-form-item> -->
+    <el-form-item>
+      <UploadImg @getImgURL="getImgURL"></UploadImg>
+    </el-form-item>
 
       <el-form-item>
         <el-button type="primary" @click="submitForm(ruleFormRef)">
@@ -45,11 +48,18 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, defineComponent } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import { getBookByISBN, updateBook } from '@/api/modules/Staff';
 import { success, error } from "@/api"
+import UploadImg from "@/components/Public/upload.vue"
+
+defineComponent ({
+  components: {
+    UploadImg
+  }
+})
 
 const formData = reactive({
   searchISBN: "",
@@ -79,6 +89,7 @@ const ruleForm = reactive({
     label: [],
     resNumber: '',
     ISBN: '',
+    img: ''
   }
 })
 
@@ -143,6 +154,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
+}
+
+const getImgURL = (url: string) => {
+  ruleForm.book.img = url;
+  console.log('get', url)
 }
 
 const options = Array.from({ length: 10000 }).map((_, idx) => ({
