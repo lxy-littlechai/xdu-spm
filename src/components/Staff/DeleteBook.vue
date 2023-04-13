@@ -20,16 +20,16 @@
     status-icon
   >
   <el-form-item label="Book name" prop="book.name">
-        <el-input v-model="ruleForm.book.name" />
+        <el-input v-model="ruleForm.book.name" readonly/>
       </el-form-item>
       <el-form-item label="Author" prop="book.author">
-        <el-input v-model="ruleForm.book.author" />
+        <el-input v-model="ruleForm.book.author" readonly/>
       </el-form-item>
       <el-form-item label="ISBN" prop="book.ISBN">
-        <el-input v-model="ruleForm.book.ISBN" />
+        <el-input v-model="ruleForm.book.ISBN" readonly/>
       </el-form-item>
       <el-form-item label="Book number" prop="book.resNumber">
-        <el-select-v2 v-model="ruleForm.book.resNumber" placeholder="Book number" :options="options" />
+        <el-input v-model="ruleForm.book.resNumber" readonly/>
       </el-form-item>
 
 <!--     <el-form-item readonly label="Book label" prop="label">
