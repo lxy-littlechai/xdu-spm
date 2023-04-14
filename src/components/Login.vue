@@ -10,7 +10,7 @@
         <label for="password">Password</label>
         <input type="password" id="password" v-model="state.password" required>
       </div>
-<!--       <div class="form-group">
+      <!--       <div class="form-group">
         <label for="role">Role</label>
         <select id="role" v-model="state.role" required>
           <option value="" disabled>Select your role</option>
@@ -20,21 +20,45 @@
           <option value="Superuser">Superuser</option>
         </select>
       </div> -->
-      <button type="submit" class="login-button" @click.prevent="login">Login</button>
+      <Vcode :show="puzzle.isShow" @success="onSuccess" @close="onClose" />
+      <button type="submit" class="login-button" @click.prevent="onSubmit">Login</button>
     </form>
     <div class="copyright">Class 2 Group B5</div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { reactive, defineComponent } from 'vue'
 import { useRouter } from "vue-router"
 import { useStore } from 'vuex'
 import { loginAccount } from "@/api"
-import {success, error} from "@/api"
+import { success, error } from "@/api"
+import Vcode from "vue3-puzzle-vcode"
 
+defineComponent({
+  components: {
+    Vcode
+  }
+})
 const store = useStore();
 const router = useRouter();
+
+
+//puzzle code
+const puzzle = reactive({
+  isShow: false,
+})
+const onSubmit = () => {
+  puzzle.isShow = true;
+}
+const onSuccess = () => {
+  puzzle.isShow = false;
+  login();
+}
+const onClose = () => {
+  puzzle.isShow = false;
+}
+
 
 const state = reactive({
   username: '',
@@ -42,8 +66,8 @@ const state = reactive({
 })
 
 const login = async () => {
-  
-  const {data} = await loginAccount(state);
+
+  const { data } = await loginAccount(state);
   console.log(data)
   if (data.success) {
     store.commit('setUser', state.username);
@@ -64,9 +88,10 @@ const login = async () => {
         })
         break;
       case 'Superuser':
-      router.push({
+        router.push({
           path: '/Superuser',
         })
+        break;
       default:
         break;
     }
@@ -93,7 +118,7 @@ const login = async () => {
   justify-content: center;
   height: 100vh;
   background-image: url("../assets/british-library.jpg");
-  background-size:auto;
+  background-size: auto;
   background-repeat: no-repeat;
 }
 
@@ -113,7 +138,7 @@ const login = async () => {
   padding: 2rem;
   border: 1px solid #ccc;
   border-radius: 0.5rem;
-  background-color: rgba(255,255,255, 1);
+  background-color: rgba(255, 255, 255, 1);
 }
 
 .form-group {
@@ -157,4 +182,5 @@ select {
   border-radius: 0.5rem;
   cursor: pointer;
   font-family: Arial, sans-serif;
-}</style>
+}
+</style>
