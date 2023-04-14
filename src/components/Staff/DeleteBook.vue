@@ -58,6 +58,9 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import { getBookByISBN ,deleteBook } from '@/api/modules/Staff';
 import {success, error} from "@/api"
+import { useStore } from 'vuex';
+const store = useStore();
+
 
 const formData = reactive({
   searchISBN: "",
@@ -81,6 +84,7 @@ const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
   book: {
+    activeUser: store.state.username,
     id: '',
     name: '',
     author: '',

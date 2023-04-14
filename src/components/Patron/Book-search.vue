@@ -52,8 +52,11 @@
 import { Search } from '@element-plus/icons-vue'
 import { reactive, } from 'vue';
 import { getBookLists } from '@/api/modules/Patron';
+import { useStore } from "vuex"
+const store = useStore();
 
 const searchInput = reactive({
+  activeUser: store.state.username,
   content: '',
   label: '',
 })

@@ -45,6 +45,8 @@ import { Search } from '@element-plus/icons-vue'
 import { Timer } from '@element-plus/icons-vue'
 import { changePermission, getAccount } from '@/api/modules/Administrators';
 import { success, error } from "@/api"
+import { useStore } from 'vuex';
+const store = useStore();
 
 const getUser = async () => {
   const username = formData.searchName;
@@ -67,6 +69,7 @@ const formData = reactive({
 
 const options = ["Patron", "Staff"]
 interface User {
+  activeUser: string
   username: string
   permission: string
 }
@@ -82,6 +85,7 @@ const tableData = reactive({
 
 const changePermission1 = async (item: any) => {
   const account = {
+    activeUser: store.state.username,
     username: item.username,
     permission: item.permission
   }

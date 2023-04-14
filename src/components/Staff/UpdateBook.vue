@@ -54,6 +54,8 @@ import { Search } from '@element-plus/icons-vue'
 import { getBookByISBN, updateBook } from '@/api/modules/Staff';
 import { success, error } from "@/api"
 import UploadImg from "@/components/Public/upload.vue"
+import { useStore } from 'vuex';
+const store = useStore();
 
 defineComponent ({
   components: {
@@ -83,6 +85,7 @@ const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
   book: {
+    activeUser: store.state.username,
     id: '',
     name: '',
     author: '',

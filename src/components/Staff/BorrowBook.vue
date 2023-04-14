@@ -54,8 +54,11 @@ import { getBookByISBN, borrowBook } from '@/api/modules/Staff';
 import { getBorrowedBookLists } from '@/api/modules/Patron';
 import { success, error, getNowFormatDate } from "@/api"
 import { caculateFee } from '@/api'
+import { useStore } from 'vuex';
+const store = useStore();
 
 const formData = reactive({
+  activeUser: store.state.username,
   name: "",
   searchISBN: "",
 })
@@ -95,6 +98,7 @@ const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
   book: {
+    activeUser: store.state.username,
     id: '',
     name: '',
     author: '',

@@ -55,7 +55,8 @@ import { returnBook, confirmPay } from '@/api/modules/Staff';
 import {success, error} from "@/api"
 import { caculateFee } from '@/api'
 import qrcodeVue from "qrcode.vue"
-
+import { useStore } from 'vuex';
+const store = useStore();
 
 const formData = reactive({
   patronName: "",
@@ -76,13 +77,17 @@ const QRConfirm = async () => {
   let { data } = await confirmPay(QR.data);
   if (data.success) {
     const { data } = await returnBook(QR.data);
+    console.log(data)
     if (data.success) {
       success()
+      QR.QRVisible = false;
       searchPatron()
     } else {
       error("Network Error");
     }
-
+  }
+  else {
+    error("You haven't pay the fee")
   }
 }
 
@@ -98,6 +103,7 @@ const searchPatron = async() => {
     item.startTime = item.startTime.substring(0, 10);
     console.log(item.startTime)
     item.fee = caculateFee(item.startTime);
+    item.activeUser = store.state.username;
     return item;
   })
   formData.borrowedBookLists = [...booklists];

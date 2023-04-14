@@ -58,6 +58,7 @@ import { caculateFee } from '@/api'
 const store = useStore();
 
 const searchInput = reactive({
+  activeUser: store.state.username,
   content: '',
   label: '',
 })

@@ -1,13 +1,13 @@
 <template>
   <div class="common-layout">
     <el-container>
-      <el-header>Administrator Interface
+      <el-header>Superuser Interface
         <div class="flex-grow" />
         <el-button @click="logout">Logout</el-button>
       </el-header>
       <el-container class="layout-container">
         <el-aside width="250px">
-          <el-menu router="true" default-active="/Staff/Permission" class="el-menu-vertical-demo">
+          <el-menu router="true" default-active="/Superuser/Statistics" class="el-menu-vertical-demo">
             <el-menu-item index="/Superuser/Log">
               <!-- <el-icon><icon-menu /></el-icon> -->
               <span>System Log</span>

@@ -59,4 +59,12 @@ const confirmPay = (data: any) => {
   });
 }
 
-export { getBookByISBN, addBook, deleteBook, updateBook, returnBook, borrowBook, confirmPay }
+const payFee = (data: any) => {
+  return baseInstance({
+    url: "/Staff/payFee",
+    method: "post",
+    data
+  });
+}
+
+export { getBookByISBN, addBook, deleteBook, updateBook, returnBook, borrowBook, payFee, confirmPay };

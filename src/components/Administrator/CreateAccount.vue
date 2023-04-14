@@ -39,9 +39,12 @@ import { reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { createAccount } from '@/api/modules/Administrators';
 import {success, error} from "@/api"
+import { useStore } from "vuex"
+const store = useStore();
 
 const accountRef = ref<FormInstance>();
 const account = reactive({
+  activeUser: store.state.username,
   username: "",
   password: "",
   permission: "",
