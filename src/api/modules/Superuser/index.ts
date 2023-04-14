@@ -9,5 +9,21 @@ const getSystemLog = (data: any) => {
   });
 }
 
+const getAllborrowedBook = (data: any) => {
+  return baseInstance({
+    url: "/Superuser/GetAllborrowedBook",
+    method: 'post',
+    data
+  });
+}
 
-export { getSystemLog };
+const getAllUser = (data: any) => {
+  return baseInstance({
+    url: "/Superuser/GetAllUser",
+    method: 'post',
+    data
+  });
+}
+
+
+export { getSystemLog, getAllborrowedBook, getAllUser };
