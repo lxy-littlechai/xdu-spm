@@ -1,19 +1,25 @@
 import { createRouter, createWebHistory } from "vue-router"
 import type { RouteRecordRaw } from "vue-router"
+
 import Login from "@/components/Login.vue"
 import Patron from "@/components/Patron/Patron.vue"
 import BorrowedBook from "@/components/Patron/BorrowedBook.vue"
 import BookSearch from "@/components/Patron/Book-search.vue"
+
 import Staff from "@/components/Staff/Staff.vue"
 import PatronInfo from "@/components/Staff/PatronOp.vue"
 import AddBook from "@/components/Staff/AddBook.vue"
 import DeleteBook from "@/components/Staff/DeleteBook.vue"
 import UpdateBook from "@/components/Staff/UpdateBook.vue"
 import BorrowBook from "@/components/Staff/BorrowBook.vue"
+
 import Administrator from "@/components/Administrator/Administrator.vue"
 import Permission from "@/components/Administrator/Permission.vue"
-import Superuser from "@/components/Administrator/superuser.vue"
 import CreateAccount from "@/components/Administrator/CreateAccount.vue"
+
+import Superuser from "@/components/Superuser/Superuser.vue"
+import Log from "@/components/Superuser/Log.vue"
+import Statistics from "@/components/Superuser/Statistics.vue"
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -73,6 +79,21 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/Administrator/CreateAccount',
         component: CreateAccount,
+      }
+    ]
+  },
+  {
+    path: '/Superuser',
+    component: Superuser,
+    redirect: '/Superuser/Statistics',
+    children: [
+      {
+        path: '/Superuser/Statistics',
+        component: Statistics
+      },
+      {
+        path: '/Superuser/Log',
+        component: Log
       }
     ]
   }

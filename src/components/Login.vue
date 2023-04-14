@@ -63,6 +63,10 @@ const login = async () => {
           path: '/Administrator',
         })
         break;
+      case 'Superuser':
+      router.push({
+          path: '/Superuser',
+        })
       default:
         break;
     }
