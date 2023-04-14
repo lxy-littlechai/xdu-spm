@@ -154,7 +154,8 @@ const clear = (formEl: FormInstance | undefined) => {
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async (valid, fields) => {
-    const checkFeeResult = await checkFeeLimit();
+    let checkFeeResult = await checkFeeLimit();
+    if(Number(ruleForm.book.resNumber) <= 0) checkFeeResult = false;
     if(checkFeeResult == false) {
       clear(formEl)
       error("This patron has a fee to pay off")

@@ -73,7 +73,7 @@ const returnPatronBook = async(book: any) => {
   console.log(data)
   if(data.success) {
         success()
-        searchPatron
+        searchPatron()
       } else {
         error();
       }
