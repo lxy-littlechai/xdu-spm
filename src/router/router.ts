@@ -21,6 +21,8 @@ import Superuser from "@/components/Superuser/Superuser.vue"
 import Log from "@/components/Superuser/Log.vue"
 import Statistics from "@/components/Superuser/Statistics.vue"
 
+import ScanQR from "@/components/Public/scanQR.vue"
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -96,6 +98,10 @@ const routes: Array<RouteRecordRaw> = [
         component: Log
       }
     ]
+  },
+  {
+    path: '/ScanQR',
+    component: ScanQR
   }
 ]
 

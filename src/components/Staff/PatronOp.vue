@@ -34,21 +34,57 @@
       </el-card>
     </div>
   </el-form>
+  <el-dialog v-model="QR.QRVisible" :title="'Scan the QR to pay $' + QR.fee" width="30%" :before-close="QRClose" center="true">
+    <qrcode-vue :value="QR.QRcode" :size="200"></qrcode-vue>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="QRClose">Cancel</el-button>
+        <el-button type="primary" @click="QRConfirm">
+          I have paid off
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
 import { Search } from '@element-plus/icons-vue'
 import { getBorrowedBookLists } from '@/api/modules/Patron';
-import { returnBook } from '@/api/modules/Staff';
+import { returnBook, confirmPay } from '@/api/modules/Staff';
 import {success, error} from "@/api"
 import { caculateFee } from '@/api'
+import qrcodeVue from "qrcode.vue"
 
 
 const formData = reactive({
   patronName: "",
   borrowedBookLists: ""
 })
+const QR = reactive({
+  QRVisible: false,
+  data: "",
+  fee: "",
+  QRcode: "",
+
+})
+const QRClose = () => {
+  QR.QRVisible = false;
+  error("Fail to return");
+}
+const QRConfirm = async () => {
+  let { data } = await confirmPay(QR.data);
+  if (data.success) {
+    const { data } = await returnBook(QR.data);
+    if (data.success) {
+      success()
+      searchPatron()
+    } else {
+      error("Network Error");
+    }
+
+  }
+}
 
 const searchPatron = async() => {
   const username = formData.patronName
@@ -68,14 +104,22 @@ const searchPatron = async() => {
 }
 
 const returnPatronBook = async(book: any) => {
-  console.log(book);
-  const { data } = await returnBook(book);
-  console.log(data)
-  if(data.success) {
-        success()
-        searchPatron()
-      } else {
-        error();
+      console.log(caculateFee(book.startTime))
+      if (caculateFee(book.startTime) == 0) {
+        const { data } = await returnBook(book);
+        if (data.success) {
+          success()
+
+        } else {
+          error("Network Error");
+        }
+        return;
+      }
+      else {
+        (QR.fee as any) = caculateFee(book.startTime);
+        (QR.data as any) = book;
+        QR.QRcode = JSON.stringify(book);
+        QR.QRVisible = true;
       }
   
 }
@@ -85,5 +129,11 @@ const returnPatronBook = async(book: any) => {
 <style lang="scss" scoped>
 .el-descriptions__label {
   width: 20px;
+}
+\deep\.dialog {
+  background-color: pink;
+}
+.QR {
+  margin: 0 auto;
 }
 </style>

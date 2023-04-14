@@ -51,4 +51,12 @@ const returnBook = (data: any) => {
   });
 }
 
-export { getBookByISBN, addBook, deleteBook, updateBook, returnBook, borrowBook }
+const confirmPay = (data: any) => {
+  return baseInstance({
+    url: "/Staff/confirmPay",
+    method: "post",
+    data
+  });
+}
+
+export { getBookByISBN, addBook, deleteBook, updateBook, returnBook, borrowBook, confirmPay }
