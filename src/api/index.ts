@@ -4,8 +4,9 @@ export * from "./instance"
 export * from "./modules"
 
 import { ElMessage } from 'element-plus'
+import { getBorrowedBookLists } from "./modules/Patron";
 
-export const success = () => ElMessage({
+export const success = (message: string | undefined) => ElMessage({
   showClose: true,
   message: 'success',
   type: 'success',
@@ -15,6 +16,12 @@ export const error = (message: string | undefined) => ElMessage({
   showClose: true,
   message: message,
   type: 'error',
+})
+
+export const warning = (message: string | undefined) => ElMessage({
+  showClose: true,
+  message: message,
+  type: 'warning',
 })
 
 
@@ -30,10 +37,25 @@ export const getNowFormatDate = () => {
 }
 
 export const caculateFee = (startTime: any) => {
-
   let sec = new Date().getTime() - new Date(startTime).getTime();
   let fee = Math.floor(sec / 86400000)
   return fee
+}
+
+export const checkFeeLimit = async (username: string) => {
+  const feeLimit = 10;
+  let check = true;
+  const { data } = await getBorrowedBookLists({ username });
+  const booklists = data.result.map((item: any) => {
+    item.startTime = item.startTime.substring(0, 10);
+    item.fee = caculateFee(item.startTime);
+    if (item.fee > feeLimit) {
+      check = false;
+    }
+    return item;
+  })
+  console.log(check);
+  return check;
 }
 
 export const loginAccount = (data: any) => {

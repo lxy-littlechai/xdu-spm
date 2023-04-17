@@ -51,9 +51,8 @@ import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import { getBookByISBN, borrowBook } from '@/api/modules/Staff';
-import { getBorrowedBookLists } from '@/api/modules/Patron';
 import { success, error, getNowFormatDate } from "@/api"
-import { caculateFee } from '@/api'
+import { checkFeeLimit } from '@/api'
 import { useStore } from 'vuex';
 const store = useStore();
 
@@ -62,22 +61,7 @@ const formData = reactive({
   name: "",
   searchISBN: "",
 })
-const checkFeeLimit = async() => {
-  const feeLimit = 10;
-  let check = true;
-  const username = formData.name;
-  const { data } = await getBorrowedBookLists({username});
-  const booklists = data.result.map((item: any) => {
-    item.startTime = item.startTime.substring(0, 10);
-    item.fee = caculateFee(item.startTime);
-    if(item.fee > feeLimit) {
-      check = false;
-    }
-    return item;
-  })
-  console.log(check);
-  return check;
-}
+
 
 const searchBook = async () => {
   const ISBN = formData.searchISBN
@@ -158,7 +142,7 @@ const clear = (formEl: FormInstance | undefined) => {
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async (valid, fields) => {
-    let checkFeeResult = await checkFeeLimit();
+    let checkFeeResult = await checkFeeLimit(formData.name);
     if(Number(ruleForm.book.resNumber) <= 0) checkFeeResult = false;
     if(checkFeeResult == false) {
       clear(formEl)

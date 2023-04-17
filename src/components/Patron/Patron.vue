@@ -20,8 +20,21 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onMounted } from 'vue'
+import { useStore } from 'vuex';
+import { checkFeeLimit,  warning} from "@/api"
 
+const store = useStore();
+onMounted(() => {
+  const feeCheck = checkFeeLimit(store.state.username);
+  feeCheck.then((res) => {
+    if(res == false) {
+     warning("There are some books have been over due")
+    }
+  })
+  
+
+})
 
 </script>
 
