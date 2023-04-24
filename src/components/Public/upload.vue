@@ -1,5 +1,6 @@
 <template>
   <el-upload
+    ref="uploadRef"
     v-model:file-list="fileList"
     class="upload-demo"
     action
@@ -18,8 +19,8 @@
   </el-upload>
 </template>
 <script lang="ts" setup>
-import { onMounted ,ref } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { onMounted, ref, defineExpose } from 'vue'
+import { ElMessage, ElMessageBox, UploadInstance } from 'element-plus'
 import { useStore } from 'vuex';
 import type { UploadProps, UploadUserFile, UploadRequestOptions } from 'element-plus'
 import axios from 'axios';
@@ -55,7 +56,7 @@ onMounted(async () => {
   }
 })
 
-
+const uploadRef = ref<UploadInstance>();
 const fileList = ref<UploadUserFile[]>([
 
 ])
@@ -93,4 +94,12 @@ const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
     () => false
   )
 }
+
+const clearFiles = () => {
+  uploadRef.value!.clearFiles();
+}
+
+defineExpose({
+  clearFiles
+})
 </script>
