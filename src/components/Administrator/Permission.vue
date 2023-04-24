@@ -28,12 +28,17 @@
       </el-table-column>
       <el-table-column label="Operations">
         <template #default="scope">
-          <el-select v-model="scope.row.permission" class="m-2" placeholder="Select" size="large"
+          <el-select :disabled="disabledAccount.includes(scope.row.permission)" v-model="scope.row.permission" class="m-2" placeholder="Select" size="large"
             @change="changePermission1(scope.row)">
             <el-option v-for="item in options" :key="item" :label="item" :value="item" />
           </el-select>
         </template>
       </el-table-column>
+      <el-table-column label="Operations">
+        <template #default="scope">
+          <el-button type="primary" @click="handleDelete(scope.row)">delete</el-button>
+        </template>
+       </el-table-column>
     </el-table>
   </el-card>
 </template>
@@ -43,9 +48,10 @@ import { reactive, ref, onMounted } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import { Timer } from '@element-plus/icons-vue'
-import { changePermission, getAccount } from '@/api/modules/Administrators';
+import { changePermission, getAccount, deleteAccount } from '@/api/modules/Administrators';
 import { success, error } from "@/api"
 
+const disabledAccount = ["Superuser","Administrator"];
 const getUser = async () => {
   const username = formData.searchName;
   const { data } = await getAccount({ username });
@@ -92,6 +98,16 @@ const changePermission1 = async (item: any) => {
     error("Network Error");
   }
 
+}
+
+const handleDelete = async(account: any) => {
+  const { data } = await deleteAccount({username: account.username});
+  if (data.success) {
+    success()
+    getUser()
+  } else {
+    error("Network Error");
+  }
 }
 
 

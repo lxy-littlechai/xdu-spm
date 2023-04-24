@@ -19,8 +19,8 @@
       <el-select v-model="account.permission" placeholder="Permission">
         <el-option label="Patron" value="Patron" />
         <el-option label="Staff" value="Staff" />
-        <el-option label="Administrator" value="Administrator" />
-        <el-option label="Superuser" value="Superuser" />
+<!--         <el-option label="Administrator" value="Administrator" />
+        <el-option label="Superuser" value="Superuser" /> -->
       </el-select>
     </el-form-item>
 

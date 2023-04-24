@@ -25,4 +25,12 @@ const changePermission = (data: any) => {
   });
 }
 
-export { createAccount, changePermission, getAccount }
+const deleteAccount = (data: any) => {
+  return baseInstance({
+    url: "/Administrator/DeleteAccount",
+    method: "post",
+    data
+  });
+}
+
+export { createAccount, changePermission, getAccount, deleteAccount }
