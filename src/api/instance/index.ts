@@ -4,7 +4,7 @@ import axios from 'axios';
 //http://1.14.66.64:3000
 const local = "/api";
 const server = "http://1.14.66.64:3000"
-const baseInstance = axios.create({ baseURL: local });
+const baseInstance = axios.create({ baseURL: server });
 
 // Shop业务可能前缀都是/shop，可以在这里统一处理，
 // 如果需要对请求和返回做特殊处理，也可以在这里加拦截器

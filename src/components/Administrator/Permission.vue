@@ -36,7 +36,7 @@
       </el-table-column>
       <el-table-column label="Operations">
         <template #default="scope">
-          <el-button type="primary" @click="handleDelete(scope.row)">delete</el-button>
+          <el-button type="primary" :disabled="disabledAccount.includes(scope.row.permission)"  @click="handleDelete(scope.row)">delete</el-button>
         </template>
        </el-table-column>
     </el-table>
