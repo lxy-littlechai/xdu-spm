@@ -34,7 +34,7 @@
       </el-checkbox-group>
     </el-form-item> -->
     <el-form-item>
-      <UploadImg @getImgURL="getImgURL"></UploadImg>
+      <UploadImg ref="upload" @getImgURL="getImgURL"></UploadImg>
     </el-form-item>
 
       <el-form-item>
@@ -79,6 +79,7 @@ const searchBook = async () => {
   }
 }
 
+const upload = ref(null);
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
@@ -154,6 +155,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
+  upload.value.clearFiles();
 }
 
 const getImgURL = (url: string) => {
