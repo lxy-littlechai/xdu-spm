@@ -97,8 +97,8 @@ const ruleForm = reactive({
 const rules = reactive<FormRules>({
   book: {
       name: [
-        { required: true, message: 'Please input Book name', trigger: 'blur' },
-        { min: 1, message: 'Length should be at least 1', trigger: 'blur' },
+        { required: true, message: 'Please input Book name', trigger: 'change' },
+        { min: 1, message: 'Length should be at least 1', trigger: 'change' },
       ],
       author: [
         {
