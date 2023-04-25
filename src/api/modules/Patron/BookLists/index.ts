@@ -20,8 +20,12 @@ const getBorrowedBookLists = (data: any) => {
   });
 }
 
-const getHistoryBookLists = (params: string) => {
-  return post<HistoryBookLists>("/url", params);
+const getHistoryBookLists = (data: any) => {
+  return baseInstance({
+    url: "/Patron/GetHistoricalBook",
+    method: 'post',
+    data
+  });
 }
 
 export { getBookLists, getBorrowedBookLists, getHistoryBookLists }

@@ -143,7 +143,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async (valid, fields) => {
     let checkFeeResult = await checkFeeLimit(formData.name);
-    if(Number(ruleForm.book.resNumber) <= 0) checkFeeResult = false;
+    console.log(checkFeeResult)
+    if(Number(ruleForm.book.resNumber) <= 0) {
+      error("There are not enough book")
+      return ;
+    }
     if(checkFeeResult == false) {
       clear(formEl)
       error("This patron has a fee to pay off")

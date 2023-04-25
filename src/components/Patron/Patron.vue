@@ -12,6 +12,7 @@
     <div class="flex-grow" />
     <el-menu-item index="/Patron/BookSearch">Book Search</el-menu-item>
     <el-menu-item index="/Patron/BorrowedBook">Borrowed Book</el-menu-item>
+    <el-menu-item index="/Patron/HistoricalBook">Historical Borrowed Book</el-menu-item>
     <el-menu-item index="/">Logout</el-menu-item>
   </el-menu>
   

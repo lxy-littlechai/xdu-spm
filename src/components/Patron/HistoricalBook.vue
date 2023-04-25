@@ -1,20 +1,20 @@
 <template>
   <div class="book-search-page">
-    <!-- <div class="cover-img"></div> -->
-    <div class="Book-search-input">
+<!--     <div class="cover-img"></div> -->
+<!--     <div class="Book-search-input">
       <el-input v-model="searchInput.content" size="large" placeholder="Please input" class="input-with-select">
         <template #prepend>
           <el-select v-model="searchInput.label" size="large" placeholder="Select" style="width: 115px">
-            <el-option label="Author" value="author" />
-            <el-option label="BookName" value="name" />
-            <!-- <el-option label="Type" value="3" /> -->
+            <el-option label="Author" value="1" />
+            <el-option label="Book" value="2" />
+            <el-option label="Type" value="3" />
           </el-select>
         </template>
         <template #append>
           <el-button :icon="Search" @click="search"/>
         </template>
       </el-input>
-    </div>
+    </div> -->
 
     <div class="book-results">
       <el-row justify="start" gutter="25">
@@ -24,22 +24,21 @@
           :span="4"
           :offset="1"
         >
-          <el-card style="width: 200px; height: 280px; border-radius: 8px; border: 0px;" :body-style="{ border: '0px',padding: '0px' }" shadow="always">
-            <el-image contain :src="book.img"
+          <el-card style="width: 220px; height: 300px; border-radius: 8px; border: 0px;" :body-style="{ border: '0px',padding: '0px' }" shadow="hover">
+            <img :src="book.img"
               class="image" />
             <div style="padding: 14px">
 
                 <div>BookName: {{book.name}}</div>
                 <div>Author: {{book.author}}</div>
 
-              
-                <div>ResNumber: {{ book.resNumber }}</div>
-                <div>Location: {{ book.location }}</div>
-
-              
+  
+                <!-- <div>ResNumber: {{ book.resNumber }}</div>
+                <div>StartTIme: {{ book.startTime }}</div>
+                <div>Fee: {{ book.fee }}</div>
               <div class="bottom">
-                <!-- <el-button text class="button">Operating</el-button> -->
-              </div>
+                <el-button text class="button">Operating</el-button>
+              </div> -->
             </div>
           </el-card>
         </el-col>
@@ -51,9 +50,11 @@
 
 <script lang="ts" setup>
 import { Search } from '@element-plus/icons-vue'
-import { reactive, } from 'vue';
-import { getBookLists } from '@/api/modules/Patron';
-import { useStore } from "vuex"
+import { reactive, onMounted } from 'vue';
+import { getHistoryBookLists } from '@/api/modules/Patron';
+import { useStore } from 'vuex'
+import { caculateFee } from '@/api'
+
 const store = useStore();
 
 const searchInput = reactive({
@@ -68,11 +69,23 @@ const results: any = reactive({
 })
 
 const search = async() => {
-  const { data } = await getBookLists(searchInput);
-  console.log(data);
-  results.bookLists = [...data.result];
-  console.log(results.bookLists)
+  //const res = await getBookLists();
+  //results.bookLists = res.data;
 }
+
+onMounted(async () => {
+  const username = store.state.username;
+  const { data } = await getHistoryBookLists({username});
+  console.log(data)
+  const booklists = data.result.map((item: any) => {
+    //item.startTime = item.startTime.substring(0, 10);
+    console.log(item.startTime)
+    //item.fee = caculateFee(item.startTime);
+    return item;
+  })
+  results.bookLists = [...booklists];
+  
+})
 
 
 </script>
@@ -86,7 +99,7 @@ const search = async() => {
   position: relative;
   width: 100%;
   height: auto;
-  
+  padding-top: 100px;
 
   .cover-img {
     position: fixed;
@@ -94,6 +107,7 @@ const search = async() => {
     left: 0;
     width: 100%;
     height: 100%;
+    background-image: url(https://s.cn.bing.net/th?id=OHR.QingMing2023_ZH-CN6951199028_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&qlt=50);
 
     background-image: url(https://s.cn.bing.net/th?id=OHR.QingMing2023_ZH-CN6951199028_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&qlt=50);
     background-size: cover;
@@ -105,12 +119,9 @@ const search = async() => {
     height: auto;
     padding: 10rem 0;
     margin: 0rem auto;
-    
   }
 
   .book-results {
-
-
     .el-row {
       margin-bottom: 20px;
     }
