@@ -49,10 +49,11 @@ const puzzle = reactive({
   isShow: false,
 })
 const onSubmit = () => {
-  puzzle.isShow = true;
+  //puzzle.isShow = true;
+  login();
 }
 const onSuccess = () => {
-  puzzle.isShow = false;
+  //puzzle.isShow = false;
   login();
 }
 const onClose = () => {
@@ -66,7 +67,7 @@ const state = reactive({
 })
 
 const login = async () => {
-
+  store.commit('clearLists');
   const { data } = await loginAccount(state);
   console.log(data)
   if (data.success) {

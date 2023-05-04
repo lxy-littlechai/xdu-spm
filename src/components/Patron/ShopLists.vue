@@ -1,17 +1,11 @@
 <template>
   <div class="book-search-page">
-    <!-- <div class="cover-img"></div> -->
+<!--     <div class="cover-img"></div> -->
     <div class="Book-search-input">
-      <el-input v-model="searchInput.content" size="large" placeholder="Please input" class="input-with-select">
-        <template #prepend>
-          <el-select v-model="searchInput.label" size="large" placeholder="Select" style="width: 115px">
-            <el-option label="Author" value="author" />
-            <el-option label="BookName" value="name" />
-            <!-- <el-option label="Type" value="3" /> -->
-          </el-select>
-        </template>
+      <el-input readonly v-model="searchInput.content" size="large" placeholder="Click the button to borrow following books " class="input-with-select">
+        
         <template #append>
-          <el-button :icon="Search" @click="search"/>
+          <el-button :icon="Check" @click="borrowLists"/>
         </template>
       </el-input>
     </div>
@@ -24,21 +18,20 @@
           :span="4"
           :offset="1"
         >
-          <el-card style="position: relative; width: 200px; height: 290px; border-radius: 8px; border: 0px;" :body-style="{ border: '0px',padding: '0px' }" shadow="always">
-            <el-image contain :src="book.img"
+          <el-card style="width: 220px; height: 300px; border-radius: 8px; border: 0px;" :body-style="{ border: '0px',padding: '0px' }" shadow="hover">
+            <img :src="book.img"
               class="image" />
             <div style="padding: 14px">
 
                 <div>BookName: {{book.name}}</div>
                 <div>Author: {{book.author}}</div>
 
-              
+  <!--               <div>Label: {{ book.label }}</div> -->
                 <div>ResNumber: {{ book.resNumber }}</div>
-                <div>Location: {{ book.location }}</div>
-
-              
+                <div>StartTIme: {{ book.startTime }}</div>
+                <div>Fee: {{ book.fee }}</div>
               <div class="bottom">
-                <el-button type="text" class="button" @click="addToLists(book)">Add to Lists</el-button>
+                <!-- <el-button text class="button">Operating</el-button> -->
               </div>
             </div>
           </el-card>
@@ -50,11 +43,13 @@
 </template>
 
 <script lang="ts" setup>
-import { Search } from '@element-plus/icons-vue'
-import { reactive, } from 'vue';
-import { getBookLists } from '@/api/modules/Patron';
-import { useStore } from "vuex"
-import { success, error } from '@/api';
+import { Check } from '@element-plus/icons-vue'
+import { reactive, onMounted, TrackOpTypes } from 'vue';
+import { borrowBook } from '@/api/modules/Staff';
+import { useStore } from 'vuex'
+import { caculateFee } from '@/api'
+import { success, error, getNowFormatDate } from "@/api"
+
 const store = useStore();
 
 const searchInput = reactive({
@@ -68,26 +63,31 @@ const results: any = reactive({
 
 })
 
-const search = async() => {
-  const { data } = await getBookLists(searchInput);
-  console.log(data);
-  results.bookLists = [...data.result];
-  console.log(results.bookLists)
+const borrowLists = async () => {
+  const name = store.state.username;
+  console.log(store.state.username)
+  let flag = true;
+  for(const book of store.state.shopLists) {
+    const body = Object.assign(book, {name: name, startTime: getNowFormatDate()})
+    
+    const { data } = await borrowBook(body);
+    if (!data.success) {
+      flag = false;
+    }
+    console.log(data)
+  }
+  if(flag) success('success');
+  else {
+    error("Network Error");
+  }
+  store.commit('clearLists');
+  results.bookLists = store.state.shopLists;
 }
 
-const addToLists = (book: any) => {
-  console.log(book.ISBN, store.state.shopLists)
-  const flag = store.state.shopLists.some((item: any) => {
-    return item.ISBN == book.ISBN
-  });
-  console.log(flag)
-  if(flag == false) {
-    store.commit('addToLists', book)
-    success('success');
-  }else {
-    error('You have added the same book')
-  }
-}
+onMounted(async () => {
+  results.bookLists = store.state.shopLists;
+  
+})
 
 
 </script>
@@ -101,7 +101,7 @@ const addToLists = (book: any) => {
   position: relative;
   width: 100%;
   height: auto;
-  
+  padding-top: 100px;
 
   .cover-img {
     position: fixed;
@@ -109,6 +109,7 @@ const addToLists = (book: any) => {
     left: 0;
     width: 100%;
     height: 100%;
+    background-image: url(https://s.cn.bing.net/th?id=OHR.QingMing2023_ZH-CN6951199028_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&qlt=50);
 
     background-image: url(https://s.cn.bing.net/th?id=OHR.QingMing2023_ZH-CN6951199028_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&qlt=50);
     background-size: cover;
@@ -120,12 +121,9 @@ const addToLists = (book: any) => {
     height: auto;
     padding: 10rem 0;
     margin: 0rem auto;
-    
   }
 
   .book-results {
-    
-
     .el-row {
       margin-bottom: 20px;
     }
@@ -149,11 +147,11 @@ const addToLists = (book: any) => {
     }
 
     .bottom {
-      position: absolute;
-      right: 10px;
-      bottom: 0px;
+      margin-top: 13px;
+      line-height: 12px;
       display: flex;
-      justify-content: right;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .button {

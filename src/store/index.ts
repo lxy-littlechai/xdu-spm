@@ -1,9 +1,11 @@
+import { number } from "echarts";
 import { createStore } from "vuex";
 
 export default createStore({
   state: {
     username: "",
     token: "",
+    shopLists: Array<any>()
   },
   mutations: {
     setUser(state, username) {
@@ -11,8 +13,18 @@ export default createStore({
     },
     setToken(state, token) {
       state.token = token;
+    },
+    addToLists(state, book: any) {
+      state.shopLists.push(book);
+    },
+    clearLists(state) {
+      state.shopLists = [];
     }
   },
-  actions: {},
+  getters: {
+  },
+  actions: {
+
+  },
   modules: {},
 });
