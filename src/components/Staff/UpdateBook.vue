@@ -24,6 +24,9 @@
       <el-form-item label="Book number" prop="book.resNumber">
         <el-select-v2 v-model="ruleForm.book.resNumber" placeholder="Book number" :options="options" />
       </el-form-item>
+      <el-form-item label="Location" prop="book.location">
+      <el-input v-model="ruleForm.book.location" />
+    </el-form-item>
 
       <!--     <el-form-item label="Book label" prop="label">
       <el-checkbox-group v-model="ruleForm.label">
@@ -33,9 +36,9 @@
         <el-checkbox label="Simple brand exposure" name="label" />
       </el-checkbox-group>
     </el-form-item> -->
-    <el-form-item>
+<!--     <el-form-item>
       <UploadImg ref="upload" @getImgURL="getImgURL"></UploadImg>
-    </el-form-item>
+    </el-form-item> -->
 
       <el-form-item>
         <el-button type="primary" @click="submitForm(ruleFormRef)">
@@ -57,11 +60,11 @@ import UploadImg from "@/components/Public/upload.vue"
 import { useStore } from 'vuex';
 const store = useStore();
 
-defineComponent ({
+/* defineComponent ({
   components: {
     UploadImg
   }
-})
+}) */
 
 const formData = reactive({
   searchISBN: "",
@@ -93,7 +96,8 @@ const ruleForm = reactive({
     label: [],
     resNumber: '',
     ISBN: '',
-    img: ''
+    img: '',
+    location: ''
   }
 })
 
@@ -124,11 +128,10 @@ const rules = reactive<FormRules>({
           trigger: 'change',
         },
       ],
-      label: [
+      location: [
         {
-          type: 'array',
           required: true,
-          message: 'Please select at least one activity type',
+          message: 'Please input location',
           trigger: 'change',
         },
       ],

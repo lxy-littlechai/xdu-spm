@@ -5,6 +5,7 @@
     class="upload-demo"
     action
     multiple
+    list-type="picture"
     :on-success="handleSuccess"
     :http-request="uploadFile"
     :limit="1"

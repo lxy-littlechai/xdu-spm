@@ -3,6 +3,31 @@ const { post } = baseInstance;
 
 import { addBookParams, IdBookParams, ResBookParams, UserParams } from "./types";
 
+const getBookFromLocal = (data: any) => {
+  return baseInstance({
+    url: "/Staff/GetBookFromLocal",
+    method: "post",
+    data
+  })
+}
+
+const addBookToLocal = (data: any) => {
+  return baseInstance({
+    url: "/Staff/AddBookToLocal",
+    method: "post",
+    data
+  })
+}
+
+const getBookFromCloud = (data: any) => {
+  console.log(data.ISBN)
+  return baseInstance({
+    url: `https://api.ibook.tech/v1/book/isbn?isbn=${data.ISBN}&uKey=ff15fa4c8b984f629c2c13db3bc336fa`,
+    method: "get"
+  })
+}
+
+
 const getBookByISBN = (data: any) => {
   return baseInstance({
     url: "/Staff/GetBookByISBN",
@@ -67,4 +92,4 @@ const payFee = (data: any) => {
   });
 }
 
-export { getBookByISBN, addBook, deleteBook, updateBook, returnBook, borrowBook, payFee, confirmPay };
+export { getBookFromLocal, addBookToLocal, getBookFromCloud, getBookByISBN, addBook, deleteBook, updateBook, returnBook, borrowBook, payFee, confirmPay };

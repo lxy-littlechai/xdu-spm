@@ -24,6 +24,9 @@
       <el-form-item label="Book number" prop="book.resNumber">
         <el-input v-model="ruleForm.book.resNumber" readonly />
       </el-form-item>
+      <el-form-item label="Location" prop="book.location">
+        <el-input readonly v-model="ruleForm.book.location" />
+      </el-form-item>
 
       <!--     <el-form-item readonly label="Book label" prop="label">
       <el-checkbox-group v-model="ruleForm.label">
@@ -82,6 +85,7 @@ const ruleForm = reactive({
     label: [],
     resNumber: '',
     ISBN: '',
+    location: ''
   }
 
 })
@@ -113,11 +117,10 @@ const rules = reactive<FormRules>({
         trigger: 'change',
       },
     ],
-    label: [
+    location: [
       {
-        type: 'array',
         required: true,
-        message: 'Please select at least one activity type',
+        message: 'Please input location',
         trigger: 'change',
       },
     ],
@@ -131,6 +134,7 @@ const clear = () => {
   ruleForm.book.author = '';
   ruleForm.book.ISBN = '';
   ruleForm.book.resNumber = '';
+  ruleForm.book.location = '';
   formData.searchISBN = '';
 }
 

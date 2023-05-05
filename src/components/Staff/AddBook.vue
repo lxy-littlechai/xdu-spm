@@ -1,4 +1,9 @@
 <template>
+  <el-input v-model="formData.searchISBN" placeholder="Input the ISBN of book to add" type="text" clearable>
+    <template #append>
+      <el-button :icon="Search" @click="searchBook" />
+    </template>
+  </el-input>
   <el-card class="box-card">
     <template #header>
       <div class="card-header">
@@ -15,13 +20,13 @@
     status-icon
   >
     <el-form-item label="Book name" prop="name">
-      <el-input v-model="ruleForm.name" />
+      <el-input readonly v-model="ruleForm.name" />
     </el-form-item>
     <el-form-item label="Author" prop="author">
-      <el-input v-model="ruleForm.author" />
+      <el-input readonly v-model="ruleForm.author" />
     </el-form-item>
     <el-form-item label="ISBN" prop="ISBN">
-      <el-input v-model="ruleForm.ISBN" />
+      <el-input readonly v-model="ruleForm.ISBN" />
     </el-form-item>
     <el-form-item label="Book number" prop="resNumber">
       <el-select-v2
@@ -29,6 +34,9 @@
         placeholder="Book number"
         :options="options"
       />
+    </el-form-item>
+    <el-form-item label="Location" prop="location">
+      <el-input v-model="ruleForm.location" />
     </el-form-item>
 
 <!--     <el-form-item label="Book label" prop="label">
@@ -40,7 +48,8 @@
       </el-checkbox-group>
     </el-form-item> -->
     <el-form-item>
-      <UploadImg ref="upload" @getImgURL="getImgURL"></UploadImg>
+      <el-image :src="ruleForm.img"></el-image>
+      <!-- <UploadImg ref="upload" @getImgURL="getImgURL"></UploadImg> -->
     </el-form-item>
     
     <el-form-item>
@@ -57,17 +66,44 @@
 <script lang="ts" setup>
 import { defineComponent, reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import { addBook } from '@/api/modules/Staff';
+import { Search } from '@element-plus/icons-vue'
+import { getBookFromLocal, addBookToLocal, getBookFromCloud, addBook } from '@/api/modules/Staff';
 import {success, error} from "@/api"
 import UploadImg from "@/components/Public/upload.vue"
 import { useStore } from 'vuex';
 const store = useStore();
 
-defineComponent ({
+/* defineComponent ({
   components: {
     UploadImg
   }
+}) */
+
+const formData = reactive({
+  searchISBN: "",
 })
+const searchBook = async () => {
+  const ISBN = formData.searchISBN;
+  const { data } = await getBookFromLocal({ISBN});
+  console.log('local',data)
+  if(data.success == false) {
+    console.log('cloud')
+    const { data } = await getBookFromCloud({ISBN});
+    ruleForm.name = data.data.title;
+    ruleForm.ISBN = data.data.isbn;
+    ruleForm.img = data.data.img;
+    ruleForm.author = data.data.author;
+    await addBookToLocal(ruleForm);
+    console.log('cloud',data)
+  }
+  else if(data.success) {
+    ruleForm.name = data.result[0].name;
+    ruleForm.ISBN = data.result[0].ISBN;
+    ruleForm.img = data.result[0].img;
+    ruleForm.author = data.result[0].author
+    console.log(ruleForm)
+  } 
+}
 
 const upload = ref(null);
 const formSize = ref('default')
@@ -81,6 +117,7 @@ const ruleForm = reactive({
   resNumber: '',
   ISBN: '',
   img: '',
+  location: '',
 })
 
 const rules = reactive<FormRules>({
@@ -109,11 +146,10 @@ const rules = reactive<FormRules>({
       trigger: 'change',
     },
   ],
-  label: [
+  location: [
     {
-      type: 'array',
       required: true,
-      message: 'Please select at least one activity type',
+      message: 'Please input location',
       trigger: 'change',
     },
   ],
