@@ -28,10 +28,8 @@
 
   <!--               <div>Label: {{ book.label }}</div> -->
                 <div>ResNumber: {{ book.resNumber }}</div>
-                <div>StartTIme: {{ book.startTime }}</div>
-                <div>Fee: {{ book.fee }}</div>
               <div class="bottom">
-                <!-- <el-button text class="button">Operating</el-button> -->
+                <el-button type="text" class="button" @click="deleteFromLists(book)">Delete</el-button>
               </div>
             </div>
           </el-card>
@@ -82,6 +80,10 @@ const borrowLists = async () => {
   }
   store.commit('clearLists');
   results.bookLists = store.state.shopLists;
+}
+
+const deleteFromLists = (book:any) => {
+  store.commit('deleteFromLists', book);
 }
 
 onMounted(async () => {
@@ -150,7 +152,7 @@ onMounted(async () => {
       margin-top: 13px;
       line-height: 12px;
       display: flex;
-      justify-content: space-between;
+      justify-content: right;
       align-items: center;
     }
 

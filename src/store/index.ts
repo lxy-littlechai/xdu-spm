@@ -15,7 +15,11 @@ export default createStore({
       state.token = token;
     },
     addToLists(state, book: any) {
+      book.index = state.shopLists.length;
       state.shopLists.push(book);
+    },
+    deleteFromLists(state, book: any) {
+      state.shopLists.splice(book.index, 1);
     },
     clearLists(state) {
       state.shopLists = [];
