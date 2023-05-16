@@ -31,10 +31,10 @@
 
                 <div>BookName: {{book.name}}</div>
                 <div>Author: {{book.author}}</div>
-
+                <div>StartTIme: {{ book.startTime }}</div>
   
                 <!-- <div>ResNumber: {{ book.resNumber }}</div>
-                <div>StartTIme: {{ book.startTime }}</div>
+                
                 <div>Fee: {{ book.fee }}</div>
               <div class="bottom">
                 <el-button text class="button">Operating</el-button>
