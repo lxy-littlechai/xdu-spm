@@ -110,7 +110,7 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: '/ScanQR',
+    path: '/Public/ScanQR',
     component: ScanQR
   }
 ]

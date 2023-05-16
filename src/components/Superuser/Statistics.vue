@@ -20,11 +20,10 @@
     </div>
 
     <!-- 用户数据 -->
-    <div>
+    <div style="width: 50%;">
       <div class="flex">
         <div>Total Users: {{ data.userlist.length }}</div>
-        <div>Borrowed Numbers: {{ data.borrowedBooklist.length }}</div>
-        <div>Storage Numbers: {{ data.totalNumber - data.borrowedBooklist.length }}</div>
+      
       </div>
       <pieChart2 :data="chartsData.userPieData" title="user statistics"></pieChart2>
     </div>
