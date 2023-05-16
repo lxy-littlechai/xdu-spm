@@ -43,6 +43,7 @@
 <script lang="ts" setup>
 import { Check } from '@element-plus/icons-vue'
 import { reactive, onMounted, TrackOpTypes } from 'vue';
+import { getBorrowedBookLists } from '@/api/modules/Patron';
 import { borrowBook } from '@/api/modules/Staff';
 import { useStore } from 'vuex'
 import { caculateFee } from '@/api'
@@ -63,7 +64,15 @@ const results: any = reactive({
 
 const borrowLists = async () => {
   const name = store.state.username;
+  const { data } = await getBorrowedBookLists({username: name});
+  if(data.result.length + results.bookLists.length > 5) {
+    error("The max borrowed limits is 5");
+    return ;
+  }
+  
   console.log(store.state.username)
+
+
   let flag = true;
   for(const book of store.state.shopLists) {
     const body = Object.assign(book, {name: name, startTime: getNowFormatDate()})
