@@ -9,13 +9,23 @@
         <el-aside width="250px">
           <el-menu router="true" default-active="/Superuser/Statistics" class="el-menu-vertical-demo">
             <el-menu-item index="/Superuser/Log">
-              <!-- <el-icon><icon-menu /></el-icon> -->
               <span>System Log</span>
             </el-menu-item>
             <el-menu-item index="/Superuser/Statistics">
-
                 <span>System Statistics</span>
             </el-menu-item>
+            <el-sub-menu index="/Superuser/Permission">
+              <template #title>
+                <span>Permission Management</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/Superuser/Permission">Change Permission</el-menu-item>
+                <el-menu-item index="/Superuser/CreateAccount">Create Account</el-menu-item>
+              </el-menu-item-group>
+              
+              
+                
+            </el-sub-menu>
 
           </el-menu>
         </el-aside>

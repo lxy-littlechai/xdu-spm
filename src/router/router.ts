@@ -22,6 +22,8 @@ import CreateAccount from "@/components/Administrator/CreateAccount.vue"
 import Superuser from "@/components/Superuser/Superuser.vue"
 import Log from "@/components/Superuser/Log.vue"
 import Statistics from "@/components/Superuser/Statistics.vue"
+import Permission1 from "@/components/Superuser/Permission.vue"
+import CreateAccount1 from "@/components/Superuser/CreateAccount.vue"
 
 import ScanQR from "@/components/Public/scanQR.vue"
 
@@ -106,6 +108,14 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/Superuser/Log',
         component: Log
+      },
+      {
+        path: '/Superuser/Permission',
+        component: Permission1
+      },
+      {
+        path: '/Superuser/CreateAccount',
+        component: CreateAccount1
       }
     ]
   },
