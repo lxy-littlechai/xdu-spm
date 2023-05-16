@@ -10,31 +10,19 @@
       </el-input>
     </div>
 
-    <div class="book-results">
-      <el-row justify="start" gutter="25">
-        <el-col
-          v-for="book in results.bookLists"
-          :key="book.id"
-          :span="4"
-          :offset="1"
-        >
-          <el-card style="width: 220px; height: 300px; border-radius: 8px; border: 0px;" :body-style="{ border: '0px',padding: '0px' }" shadow="hover">
-            <img :src="book.img"
-              class="image" />
-            <div style="padding: 14px">
-
-                <div>BookName: {{book.name}}</div>
-                <div>Author: {{book.author}}</div>
-
-  <!--               <div>Label: {{ book.label }}</div> -->
-                <div>ResNumber: {{ book.resNumber }}</div>
-              <div class="bottom">
-                <el-button type="text" class="button" @click="deleteFromLists(book)">Delete</el-button>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
+    <div class="container">
+      <div v-for="book in results.bookLists" :key="book.ISBN" >
+        <book-card 
+          @clickBtn="deleteFromLists" 
+          btnName="delete from lists"
+          :img="book.img"
+          :name="book.name"
+          :author="book.author"
+          :location="book.location"
+          :number="book.resNumber"
+          :ISBN="book.ISBN"
+        ></book-card>
+      </div>
     </div>
 
   </div>
@@ -48,6 +36,7 @@ import { borrowBook } from '@/api/modules/Staff';
 import { useStore } from 'vuex'
 import { caculateFee } from '@/api'
 import { success, error, getNowFormatDate } from "@/api"
+import bookCard from "@/components/Public/bookCard.vue";
 
 const store = useStore();
 
@@ -63,8 +52,9 @@ const results: any = reactive({
 })
 
 const borrowLists = async () => {
-  const name = store.state.username;
+  const username = store.state.username;
   const { data } = await getBorrowedBookLists({username: name});
+  console.log(data.result.length)
   if(data.result.length + results.bookLists.length > 5) {
     error("The max borrowed limits is 5");
     return ;
@@ -74,9 +64,10 @@ const borrowLists = async () => {
 
 
   let flag = true;
-  for(const book of store.state.shopLists) {
-    const body = Object.assign(book, {name: name, startTime: getNowFormatDate()})
-    
+  for(let book of store.state.shopLists) {
+    let arr = JSON.parse(JSON.stringify(book));
+    const body = Object.assign(arr, {username, startTime: getNowFormatDate()})
+    console.log('body',body)
     const { data } = await borrowBook(body);
     if (!data.success) {
       flag = false;
@@ -95,9 +86,8 @@ const deleteFromLists = (book:any) => {
   store.commit('deleteFromLists', book);
 }
 
-onMounted(async () => {
+onMounted(() => {
   results.bookLists = store.state.shopLists;
-  
 })
 
 
@@ -112,7 +102,7 @@ onMounted(async () => {
   position: relative;
   width: 100%;
   height: auto;
-  padding-top: 100px;
+
 
   .cover-img {
     position: fixed;
@@ -130,52 +120,16 @@ onMounted(async () => {
   .Book-search-input {
     width: 40%;
     height: auto;
-    padding: 10rem 0;
+
     margin: 0rem auto;
   }
 
-  .book-results {
-    .el-row {
-      margin-bottom: 20px;
-    }
+  
+}
 
-    .el-row:last-child {
-      margin-bottom: 0;
-    }
-
-    .el-col {
-      width: 25%;
-      border-radius: 4px;
-      margin-bottom: 30px;
-    }
-    .el-col-4 {
-      max-width: 15%;
-    }
-
-    .time {
-      font-size: 12px;
-      color: #999;
-    }
-
-    .bottom {
-      margin-top: 13px;
-      line-height: 12px;
-      display: flex;
-      justify-content: right;
-      align-items: center;
-    }
-
-    .button {
-      padding: 0;
-      min-height: auto;
-    }
-
-    .image {
-      width: 100%;
-      height: 150px;
-      display: block;
-    }
-
-
-  }
-}</style>
+.container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+</style>

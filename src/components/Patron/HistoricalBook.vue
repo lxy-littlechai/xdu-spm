@@ -1,48 +1,16 @@
 <template>
   <div class="book-search-page">
-<!--     <div class="cover-img"></div> -->
-<!--     <div class="Book-search-input">
-      <el-input v-model="searchInput.content" size="large" placeholder="Please input" class="input-with-select">
-        <template #prepend>
-          <el-select v-model="searchInput.label" size="large" placeholder="Select" style="width: 115px">
-            <el-option label="Author" value="1" />
-            <el-option label="Book" value="2" />
-            <el-option label="Type" value="3" />
-          </el-select>
-        </template>
-        <template #append>
-          <el-button :icon="Search" @click="search"/>
-        </template>
-      </el-input>
-    </div> -->
-
-    <div class="book-results">
-      <el-row justify="start" gutter="25">
-        <el-col
-          v-for="book in results.bookLists"
-          :key="book.id"
-          :span="4"
-          :offset="1"
-        >
-          <el-card style="width: 220px; height: 300px; border-radius: 8px; border: 0px;" :body-style="{ border: '0px',padding: '0px' }" shadow="hover">
-            <img :src="book.img"
-              class="image" />
-            <div style="padding: 14px">
-
-                <div>BookName: {{book.name}}</div>
-                <div>Author: {{book.author}}</div>
-                <div>StartTIme: {{ book.startTime }}</div>
-  
-                <!-- <div>ResNumber: {{ book.resNumber }}</div>
-                
-                <div>Fee: {{ book.fee }}</div>
-              <div class="bottom">
-                <el-button text class="button">Operating</el-button>
-              </div> -->
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
+    <div class="container">
+      <div v-for="book in results.bookLists" :key="book.ISBN" >
+        <book-card 
+          :img="book.img"
+          :name="book.name"
+          :author="book.author"
+          :location="book.location"
+          :ISBN="book.ISBN"
+          :startTime="book.startTime"
+        ></book-card>
+      </div>
     </div>
 
   </div>
@@ -54,6 +22,7 @@ import { reactive, onMounted } from 'vue';
 import { getHistoryBookLists } from '@/api/modules/Patron';
 import { useStore } from 'vuex'
 import { caculateFee } from '@/api'
+import bookCard from "@/components/Public/bookCard.vue";
 
 const store = useStore();
 
@@ -99,7 +68,7 @@ onMounted(async () => {
   position: relative;
   width: 100%;
   height: auto;
-  padding-top: 100px;
+
 
   .cover-img {
     position: fixed;
@@ -121,48 +90,13 @@ onMounted(async () => {
     margin: 0rem auto;
   }
 
-  .book-results {
-    .el-row {
-      margin-bottom: 20px;
-    }
+}
 
-    .el-row:last-child {
-      margin-bottom: 0;
-    }
-
-    .el-col {
-      width: 25%;
-      border-radius: 4px;
-      margin-bottom: 30px;
-    }
-    .el-col-4 {
-      max-width: 15%;
-    }
-
-    .time {
-      font-size: 12px;
-      color: #999;
-    }
-
-    .bottom {
-      margin-top: 13px;
-      line-height: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .button {
-      padding: 0;
-      min-height: auto;
-    }
-
-    .image {
-      width: 100%;
-      height: 150px;
-      display: block;
-    }
-
-
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  &>div {
+    margin: 0 20px;
   }
-}</style>
+}
+</style>

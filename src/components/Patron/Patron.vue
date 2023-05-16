@@ -1,30 +1,33 @@
 <template>
-  <div class="container">
-    <div class="cover"></div>
-    <el-menu
-    default-active="/Patron/BookSearch"
-    class="el-menu"
-    mode="horizontal"
-    :ellipsis="false"
-    :router="true"
-  >
-    <el-menu-item>Welcome to Library</el-menu-item>
-    <div class="flex-grow" />
-    <el-menu-item index="/Patron/BookSearch">Book Search</el-menu-item>
-    <el-menu-item index="/Patron/ShopLists">Shop Lists</el-menu-item>
-    <el-menu-item index="/Patron/BorrowedBook">Borrowed Book</el-menu-item>
-    <el-menu-item index="/Patron/HistoricalBook">Historical Borrowed Book</el-menu-item>
-    <el-menu-item index="/">Logout</el-menu-item>
-  </el-menu>
-  
-  </div>
-<router-view ></router-view>
-</template>
+  <div class="common-layout">
+    <el-container>
+      <el-header>Welcome to the British Library
+        <div class="flex-grow" />
+        <el-button @click="logout">Logout</el-button>
+      </el-header>
 
+      <el-container class="layout-container">
+        <el-aside width="250px">
+          <el-menu router="true" default-active="/Patron/BookSearch" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+            <el-menu-item index="/Patron/BookSearch">Book Search</el-menu-item>
+                <el-menu-item index="/Patron/ShopLists">Shop Lists</el-menu-item>
+                <el-menu-item index="/Patron/BorrowedBook">Borrowed Book</el-menu-item>
+                <el-menu-item index="/Patron/HistoricalBook">Historical Borrowed Book</el-menu-item>
+          </el-menu>
+        </el-aside>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
+      </el-container>
+    </el-container>
+  </div>
+</template>
 <script lang="ts" setup>
 import { onMounted } from 'vue'
 import { useStore } from 'vuex';
 import { checkFeeLimit,  warning} from "@/api"
+import { useRouter } from "vue-router"
+const router = useRouter();
 
 const store = useStore();
 onMounted(() => {
@@ -34,34 +37,42 @@ onMounted(() => {
      warning("There are some books have been over due")
     }
   })
-  
+})
 
+const logout = () => router.push({
+  path: "/"
 })
 
 </script>
 
 <style lang="scss" scoped>
-.container {
-  position: relative;
-  .cover {
-    position: fixed;
+.common-layout {
+  height: 100vh;
+  .el-header {
+    height: 10vh;
     width: 100%;
-    height: 100vh;
-    z-index: -999;
-    background-image: url(../../assets/british-library.jpg);
-    background-size:cover;
-    background-repeat: no-repeat;
+    background-color: #409eff;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    color: white;
+    .flex-grow {
+     flex-grow: 1;
+    }
   }
-  
-  
-  .el-menu {
-    width: 100%;
-    position: fixed;
-    opacity: 0.8;
-    z-index: 999;
+
+  .layout-container {
+    height: 90vh;
   }
-}
-.flex-grow {
-  flex-grow: 1;
+
+  .el-aside {
+    
+    .el-menu {
+      height: 100%;
+      .el-menu-item {
+
+      }
+    }
+  }
 }
 </style>

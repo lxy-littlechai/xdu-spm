@@ -27,15 +27,6 @@
         <el-input v-model="ruleForm.book.resNumber" readonly/>
       </el-form-item>
 
-      <!--     <el-form-item label="Book label" prop="label">
-      <el-checkbox-group v-model="ruleForm.label">
-        <el-checkbox label="Online activities" name="label" />
-        <el-checkbox label="Promotion activities" name="label" />
-        <el-checkbox label="Offline activities" name="label" />
-        <el-checkbox label="Simple brand exposure" name="label" />
-      </el-checkbox-group>
-    </el-form-item> -->
-
       <el-form-item>
         <el-button type="primary" @click="submitForm(ruleFormRef)">
           Borrow
@@ -57,7 +48,7 @@ import { useStore } from 'vuex';
 const store = useStore();
 
 const formData = reactive({
-  activeUser: store.state.username,
+  username: store.state.username,
   name: "",
   searchISBN: "",
 })
@@ -155,7 +146,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
 
     if (valid) {
-      const body = Object.assign(ruleForm.book, {name: formData.name, startTime: getNowFormatDate()})
+      const body = Object.assign(ruleForm.book, {username: formData.username, startTime: getNowFormatDate()})
       console.log(body)
       const { data } = await borrowBook(body);
       if (data.success) {

@@ -16,35 +16,21 @@
       </el-input>
     </div>
 
-    <div class="book-results">
-      <el-row justify="start" gutter="25">
-        <el-col
-          v-for="book in results.bookLists"
-          :key="book.id"
-          :span="4"
-          :offset="1"
-        >
-          <el-card style="position: relative; width: 200px; height: 290px; border-radius: 8px; border: 0px;" :body-style="{ border: '0px',padding: '0px' }" shadow="always">
-            <el-image contain :src="book.img"
-              class="image" />
-            <div style="padding: 14px">
-
-                <div>BookName: {{book.name}}</div>
-                <div>Author: {{book.author}}</div>
-
-              
-                <div>ResNumber: {{ book.resNumber }}</div>
-                <div>Location: {{ book.location }}</div>
-
-              
-              <div class="bottom">
-                <el-button type="text" class="button" @click="addToLists(book)">Add to Lists</el-button>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
+    <div class="container">
+      <div v-for="book in results.bookLists" :key="book.ISBN" >
+        <book-card 
+          @clickBtn="addToLists" 
+          btnName="add to lists"
+          :img="book.img"
+          :name="book.name"
+          :author="book.author"
+          :location="book.location"
+          :number="book.resNumber"
+          :ISBN="book.ISBN"
+        ></book-card>
+      </div>
     </div>
+    
 
   </div>
 </template>
@@ -55,6 +41,7 @@ import { reactive, } from 'vue';
 import { getBookLists } from '@/api/modules/Patron';
 import { useStore } from "vuex"
 import { success, error } from '@/api';
+import bookCard from "@/components/Public/bookCard.vue";
 const store = useStore();
 
 const searchInput = reactive({
@@ -118,55 +105,16 @@ const addToLists = (book: any) => {
   .Book-search-input {
     width: 40%;
     height: auto;
-    padding: 10rem 0;
     margin: 0rem auto;
     
   }
+}
 
-  .book-results {
-    
-
-    .el-row {
-      margin-bottom: 20px;
-    }
-
-    .el-row:last-child {
-      margin-bottom: 0;
-    }
-
-    .el-col {
-      width: 25%;
-      border-radius: 4px;
-      margin-bottom: 30px;
-    }
-    .el-col-4 {
-      max-width: 15%;
-    }
-
-    .time {
-      font-size: 12px;
-      color: #999;
-    }
-
-    .bottom {
-      position: absolute;
-      right: 10px;
-      bottom: 0px;
-      display: flex;
-      justify-content: right;
-    }
-
-    .button {
-      padding: 0;
-      min-height: auto;
-    }
-
-    .image {
-      width: 100%;
-      height: 150px;
-      display: block;
-    }
-
-
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  &>div {
+    margin: 0 20px;
   }
-}</style>
+}
+</style>
