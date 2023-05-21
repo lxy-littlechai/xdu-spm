@@ -53,8 +53,8 @@ const results: any = reactive({
 
 const borrowLists = async () => {
   const username = store.state.username;
-  const { data } = await getBorrowedBookLists({username: name});
-  console.log(data.result.length)
+  const { data } = await getBorrowedBookLists({username});
+  console.log(data.result, results.bookLists.length)
   if(data.result.length + results.bookLists.length > 5) {
     error("The max borrowed limits is 5");
     return ;
