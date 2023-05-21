@@ -4,6 +4,7 @@
     <div class="container">
       <div v-for="book in results.bookLists" :key="book.ISBN" >
         <book-card 
+          @clickBtn="addToLists"
           btnName="add to lists"
           :img="book.img"
           :name="book.name"
@@ -25,6 +26,7 @@ import { reactive, onMounted } from 'vue';
 import { getBorrowedBookLists } from '@/api/modules/Patron';
 import { useStore } from 'vuex'
 import { caculateFee } from '@/api'
+import { success, error } from '@/api';
 import bookCard from "@/components/Public/bookCard.vue";
 
 const store = useStore();
@@ -58,6 +60,20 @@ onMounted(async () => {
   results.bookLists = [...booklists];
   
 })
+
+const addToLists = (book: any) => {
+  console.log(book.ISBN, store.state.shopLists)
+  const flag = store.state.shopLists.some((item: any) => {
+    return item.ISBN == book.ISBN
+  });
+  console.log(flag)
+  if(flag == false) {
+    store.commit('addToLists', book)
+    success('success');
+  }else {
+    error('You have added the same book')
+  }
+}
 
 
 </script>
