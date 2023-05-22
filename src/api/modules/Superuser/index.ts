@@ -25,5 +25,21 @@ const getAllUser = (data: any) => {
   });
 }
 
+const backUpDB = () => {
+  return baseInstance({
+    url: "/Superuser/BackUpDB",
+    method: 'post',
 
-export { getSystemLog, getAllborrowedBook, getAllUser };
+  });
+}
+
+const restoreDB = () => {
+  return baseInstance({
+    url: "/Superuser/RestoreDB",
+    method: 'post',
+
+  });
+}
+
+
+export { getSystemLog, getAllborrowedBook, getAllUser, backUpDB, restoreDB };

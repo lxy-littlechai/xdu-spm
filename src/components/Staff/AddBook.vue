@@ -89,12 +89,13 @@ const searchBook = async () => {
   if(data.success == false) {
     console.log('cloud')
     const { data } = await getBookFromCloud({ISBN});
+    console.log('cloud',data)
     ruleForm.name = data.data.title;
     ruleForm.ISBN = data.data.isbn;
     ruleForm.img = data.data.img;
     ruleForm.author = data.data.author;
     await addBookToLocal(ruleForm);
-    console.log('cloud',data)
+    
   }
   else if(data.success) {
     ruleForm.name = data.result[0].name;

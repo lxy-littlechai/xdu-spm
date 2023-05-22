@@ -114,8 +114,9 @@ const returnPatronBook = async(book: any) => {
       if (caculateFee(book.startTime) == 0) {
         const { data } = await returnBook(book);
         if (data.success) {
+          await searchPatron()
           success()
-
+          
         } else {
           error("Network Error");
         }
