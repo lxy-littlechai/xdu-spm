@@ -13,12 +13,12 @@
       <el-main>
         <div>Author: {{ props.author }}</div>
         <div>Location: {{ props.location  }}</div>
-        <div v-if="props.number">Number: {{ props.number }}</div>
+        <div v-if="props.number != undefined">Number: {{ props.number }}</div>
         <div>ISBN: {{ props.ISBN }}</div>
         <div v-if="props.startTime">StartTime: {{ props.startTime }}</div>
         <div v-if="props.fee">Fee: {{ props.fee }}</div>
         <div v-if="props.status">Status: {{ props.status }}</div>
-        <div v-if="props.status">Remaining Days: {{ free4BorrowDays - getDay(props.startTime) }}</div>
+        <div v-if="props.status == 'on loan'">Remaining Days: {{ free4BorrowDays - getDay(props.startTime) }}</div>
       </el-main>
     </el-container>
   </el-card>

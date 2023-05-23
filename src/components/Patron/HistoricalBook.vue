@@ -12,6 +12,7 @@
           :ISBN="book.ISBN"
           :startTime="book.startTime"
           :status="book.status"
+          :number="book.resNumber"
         ></book-card>
       </div>
     </div>
@@ -20,11 +21,9 @@
 </template>
 
 <script lang="ts" setup>
-import { Search } from '@element-plus/icons-vue'
 import { reactive, onMounted } from 'vue';
 import { getHistoryBookLists } from '@/api/modules/Patron';
 import { useStore } from 'vuex'
-import { caculateFee } from '@/api'
 import { success, error } from '@/api';
 import bookCard from "@/components/Public/bookCard.vue";
 
@@ -61,6 +60,11 @@ onMounted(async () => {
 })
 
 const addToLists = (book: any) => {
+  console.log('number', book)
+  if(Number(book.number) <= 0) {
+    error('Lack of books')
+    return ;
+  }
   console.log(book.ISBN, store.state.shopLists)
   const flag = store.state.shopLists.some((item: any) => {
     return item.ISBN == book.ISBN

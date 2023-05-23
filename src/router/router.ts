@@ -6,7 +6,7 @@ import Patron from "@/components/Patron/Patron.vue"
 import BorrowedBook from "@/components/Patron/BorrowedBook.vue"
 import BookSearch from "@/components/Patron/Book-search.vue"
 import HistoricalBook from "@/components/Patron/HistoricalBook.vue"
-import ShopLists from "@/components/Patron/ShopLists.vue"
+import WishLists from "@/components/Patron/WishLists.vue"
 
 import Staff from "@/components/Staff/Staff.vue"
 import PatronInfo from "@/components/Staff/PatronOp.vue"
@@ -51,7 +51,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/Patron/ShopLists',
-        component: ShopLists
+        component: WishLists
       }
     ]
   },
