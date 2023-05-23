@@ -11,6 +11,7 @@
           :location="book.location"
           :ISBN="book.ISBN"
           :startTime="book.startTime"
+          :status="book.status"
         ></book-card>
       </div>
     </div>

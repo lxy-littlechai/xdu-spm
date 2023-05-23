@@ -13,18 +13,17 @@
       <el-main>
         <div>Author: {{ props.author }}</div>
         <div>Location: {{ props.location  }}</div>
-        <div>Number: {{ props.number }}</div>
+        <div v-if="props.number">Number: {{ props.number }}</div>
         <div>ISBN: {{ props.ISBN }}</div>
         <div v-if="props.startTime">StartTime: {{ props.startTime }}</div>
         <div v-if="props.fee">Fee: {{ props.fee }}</div>
+        <div v-if="props.status">Status: {{ props.status }}</div>
       </el-main>
     </el-container>
   </el-card>
 </template>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue';
-
 
 const props = defineProps({
   btnName: String,
@@ -35,7 +34,8 @@ const props = defineProps({
   number: String || Number,
   ISBN: String,
   fee: String || Number,
-  startTime: String
+  startTime: String,
+  status: String
 })
 
 const emits = defineEmits([
