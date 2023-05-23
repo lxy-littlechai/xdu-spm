@@ -36,10 +36,16 @@ export const getNowFormatDate = () => {
   return `${year}-${month}-${strDate}`
 }
 
-export const calculateFee = (startTime: any) => {
+export const free4BorrowDays = 14;
+
+export const getDay = (startTime: any) => {
   let sec = new Date().getTime() - new Date(startTime).getTime();
   let day = Math.floor(sec / 86400000)
-  let fee = Math.max(0, day - 14);
+  return day;
+}
+
+export const calculateFee = (startTime: any) => {
+  let fee = Math.max(0, getDay(startTime) - free4BorrowDays);
   return fee
 }
 

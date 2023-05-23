@@ -18,12 +18,14 @@
         <div v-if="props.startTime">StartTime: {{ props.startTime }}</div>
         <div v-if="props.fee">Fee: {{ props.fee }}</div>
         <div v-if="props.status">Status: {{ props.status }}</div>
+        <div v-if="props.status">Remaining Days: {{ free4BorrowDays - getDay(props.startTime) }}</div>
       </el-main>
     </el-container>
   </el-card>
 </template>
 
 <script lang="ts" setup>
+import { free4BorrowDays, getDay } from '@/api';
 
 const props = defineProps({
   btnName: String,

@@ -13,6 +13,7 @@
           :ISBN="book.ISBN"
           :startTime="book.startTime"
           :fee="book.fee"
+          status="on loan"
         ></book-card>
       </div>
     </div>
@@ -25,7 +26,7 @@ import { Search } from '@element-plus/icons-vue'
 import { reactive, onMounted } from 'vue';
 import { getBorrowedBookLists } from '@/api/modules/Patron';
 import { useStore } from 'vuex'
-import { caculateFee } from '@/api'
+import { calculateFee } from '@/api'
 import { success, error } from '@/api';
 import bookCard from "@/components/Public/bookCard.vue";
 
@@ -54,7 +55,7 @@ onMounted(async () => {
   const booklists = data.result.map((item: any) => {
     item.startTime = item.startTime.substring(0, 10);
     console.log(item.startTime)
-    item.fee = caculateFee(item.startTime);
+    item.fee = calculateFee(item.startTime);
     return item;
   })
   results.bookLists = [...booklists];
