@@ -149,7 +149,7 @@ const deleteBook1 = async (formEl: FormInstance | undefined) => {
         clear();
 
       } else {
-        error("Network Error");
+        error("Some books are on loan, you can't delete it now");
       }
     } else {
       console.log('error submit!', fields)

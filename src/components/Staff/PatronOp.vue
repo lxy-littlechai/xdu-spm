@@ -53,7 +53,7 @@ import { Search } from '@element-plus/icons-vue'
 import { getBorrowedBookLists } from '@/api/modules/Patron';
 import { returnBook, confirmPay } from '@/api/modules/Staff';
 import {success, error} from "@/api"
-import { caculateFee } from '@/api'
+import { calculateFee } from '@/api'
 import qrcodeVue from "qrcode.vue"
 import { useStore } from 'vuex';
 const store = useStore();
@@ -102,7 +102,7 @@ const searchPatron = async() => {
   const booklists = data.result.map((item: any) => {
     item.startTime = item.startTime.substring(0, 10);
     console.log(item.startTime)
-    item.fee = caculateFee(item.startTime);
+    item.fee = calculateFee(item.startTime);
     item.activeUser = store.state.username;
     return item;
   })
@@ -110,8 +110,8 @@ const searchPatron = async() => {
 }
 
 const returnPatronBook = async(book: any) => {
-      console.log(caculateFee(book.startTime))
-      if (caculateFee(book.startTime) == 0) {
+      console.log(calculateFee(book.startTime))
+      if (calculateFee(book.startTime) == 0) {
         const { data } = await returnBook(book);
         if (data.success) {
           await searchPatron()
@@ -123,7 +123,7 @@ const returnPatronBook = async(book: any) => {
         return;
       }
       else {
-        (QR.fee as any) = caculateFee(book.startTime);
+        (QR.fee as any) = calculateFee(book.startTime);
         (QR.data as any) = book;
         QR.QRcode = JSON.stringify(book);
         QR.QRVisible = true;
