@@ -7,6 +7,7 @@ import BorrowedBook from "@/components/Patron/BorrowedBook.vue"
 import BookSearch from "@/components/Patron/Book-search.vue"
 import HistoricalBook from "@/components/Patron/HistoricalBook.vue"
 import WishLists from "@/components/Patron/WishLists.vue"
+import Dashboard from "@/components/Patron/Dashboard.vue"
 
 import Staff from "@/components/Staff/Staff.vue"
 import PatronInfo from "@/components/Staff/PatronOp.vue"
@@ -35,8 +36,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/Patron',
     component: Patron,
-    redirect: '/Patron/BookSearch',
+    redirect: '/Patron/Dashboard',
     children: [
+      {
+        path: '/Patron/Dashboard',
+        component: Dashboard
+      },
       {
         path: '/Patron/BookSearch',
         component: BookSearch

@@ -7,5 +7,6 @@ import router from "./router/router";
 
 
 import "@/scss/common.scss";
+import "@/scss/public.scss";
 
 createApp(App).use(store).use(ElementPlus).use(router).mount("#app");

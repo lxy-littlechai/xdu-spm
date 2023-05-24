@@ -8,11 +8,12 @@
 
       <el-container class="layout-container">
         <el-aside width="250px">
-          <el-menu router="true" default-active="/Patron/BookSearch" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+          <el-menu router="true" default-active="/Patron/Dashboard" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+            <el-menu-item index="/Patron/Dashboard">Dashboard</el-menu-item>
             <el-menu-item index="/Patron/BookSearch">Book Search</el-menu-item>
-                <el-menu-item index="/Patron/ShopLists">Wish Lists</el-menu-item>
-                <el-menu-item index="/Patron/BorrowedBook">Borrowed Book</el-menu-item>
-                <el-menu-item index="/Patron/HistoricalBook">Historical Borrowed Book</el-menu-item>
+            <el-menu-item index="/Patron/ShopLists">Wish Lists</el-menu-item>
+            <el-menu-item index="/Patron/BorrowedBook">Borrowed Book</el-menu-item>
+            <el-menu-item index="/Patron/HistoricalBook">Historical Borrowed Book</el-menu-item>
           </el-menu>
         </el-aside>
         <el-main>
