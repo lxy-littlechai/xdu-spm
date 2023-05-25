@@ -62,7 +62,7 @@ const router = useRouter();
 
 const formData = reactive({
   patronName: "",
-  borrowedBookLists: ""
+  borrowedBookLists: []
 })
 /* const QR = reactive({
   QRVisible: false,
@@ -96,12 +96,8 @@ const QRConfirm = async () => {
 const searchPatron = async() => {
   const username = formData.patronName
   const { data } = await getBorrowedBookLists({username});
-  if(data.result == false) {
-    error("No Data");
-    return ;
-  }
-  console.log(data)
   formData.borrowedBookLists = data.result;
+  success("")
 }
 
 const returnPatronBook = async(book: any) => {
@@ -110,7 +106,6 @@ const returnPatronBook = async(book: any) => {
         const { data } = await returnBook(book);
         if (data.success) {
           await searchPatron()
-          success("")
           
         } else {
           error("Network Error");
@@ -126,7 +121,7 @@ const returnPatronBook = async(book: any) => {
               console.log('close')
               const { data } = await returnBook(book);
               await searchPatron()
-              success("")
+              
               clearInterval(interval);
               return ;
             }

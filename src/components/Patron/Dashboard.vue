@@ -27,8 +27,6 @@
 import { reactive, onMounted } from "vue"
 import { useStore } from "vuex"
 import { getBookLists, getBorrowedBookLists, getHistoryBookLists } from "@/api/modules/Patron"
-import { success, error } from "@/api"
-import bookCard from "@/components/Public/bookCard.vue";
 
 
 const store = useStore();

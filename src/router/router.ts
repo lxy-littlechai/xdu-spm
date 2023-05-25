@@ -18,6 +18,7 @@ import BorrowBook from "@/components/Staff/BorrowBook.vue"
 import StaffCreateAccount from "@/components/Staff/CreateAccount.vue"
 import BorrowHistory from "@/components/Staff/History/BorrowHistory.vue"
 import ReturnHistory from "@/components/Staff/History/ReturnHistory.vue"
+import StaffDashboard from "@/components/Staff/Dashboard.vue"
 
 import Administrator from "@/components/Administrator/Administrator.vue"
 import Permission from "@/components/Administrator/Permission.vue"
@@ -102,6 +103,10 @@ const routes: Array<RouteRecordRaw> = [
         path: '/Staff/History/Return',
         component: ReturnHistory
       },
+      {
+        path: '/Staff/Dashboard',
+        component: StaffDashboard
+      }
     ]
   },
   {

@@ -8,7 +8,10 @@
 
       <el-container class="layout-container">
         <el-aside width="250px">
-          <el-menu router="true" default-active="/Staff/PatronInfo" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+          <el-menu router="true" default-active="/Staff/Dashboard" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+            <el-menu-item index="/Staff/Dashboard">
+              <span>Dashboard</span>
+            </el-menu-item>
             <el-menu-item index="/Staff/PatronInfo">
               <!-- <el-icon><icon-menu /></el-icon> -->
               <span>Patron Operation</span>
