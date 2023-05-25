@@ -20,6 +20,7 @@ import StaffCreateAccount from "@/components/Staff/CreateAccount.vue"
 import Administrator from "@/components/Administrator/Administrator.vue"
 import Permission from "@/components/Administrator/Permission.vue"
 import CreateAccount from "@/components/Administrator/CreateAccount.vue"
+import SystemOption from "@/components/Administrator/SystemOption.vue"
 
 import Superuser from "@/components/Superuser/Superuser.vue"
 import Log from "@/components/Superuser/Log.vue"
@@ -104,6 +105,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/Administrator/CreateAccount',
         component: CreateAccount,
+      },
+      {
+        path: '/Administrator/SystemOption',
+        component: SystemOption
       }
     ]
   },

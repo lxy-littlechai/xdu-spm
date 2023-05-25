@@ -33,4 +33,18 @@ const deleteAccount = (data: any) => {
   });
 }
 
-export { createAccount, changePermission, getAccount, deleteAccount }
+const setSystemOption = (data: any) => {
+  return baseInstance({
+    url: "/Administrator/SetSystemOption",
+    method: "post",
+    data
+  })
+}
+
+export {
+  createAccount,
+  changePermission,
+  getAccount,
+  deleteAccount,
+  setSystemOption
+}

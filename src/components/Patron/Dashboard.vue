@@ -70,12 +70,7 @@ const addToLists = (book: any) => {
 
 onMounted(async () => {
   let  res  = await getBorrowedBookLists({username: dashboard.username})
-  dashboard.borrowedBooks = res.data.result.map((item: any) => {
-    item.startTime = item.startTime.substring(0, 10);
-    console.log(item.startTime)
-    item.fee = calculateFee(item.startTime);
-    return item;
-  })
+  dashboard.borrowedBooks = res.data.result
 
   res  = await getBookLists({
     activeUser: dashboard.username,

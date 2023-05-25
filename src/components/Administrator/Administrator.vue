@@ -9,14 +9,14 @@
         <el-aside width="250px">
           <el-menu router="true" default-active="/Staff/Permission" class="el-menu-vertical-demo">
             <el-menu-item index="/Administrator/Permission">
-              <!-- <el-icon><icon-menu /></el-icon> -->
               <span>Permission Management</span>
             </el-menu-item>
             <el-menu-item index="/Administrator/CreateAccount">
-
                 <span>Create Account</span>
             </el-menu-item>
-
+            <el-menu-item index="/Administrator/SystemOption">
+                <span>System Option</span>
+            </el-menu-item>
           </el-menu>
         </el-aside>
         <el-main>
