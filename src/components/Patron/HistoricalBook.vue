@@ -13,6 +13,7 @@
           :startTime="book.startTime"
           :status="book.status"
           :number="book.resNumber"
+          :freeKeepDays="book.freeKeepDays"
         ></book-card>
       </div>
     </div>

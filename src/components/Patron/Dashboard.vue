@@ -19,19 +19,6 @@
         <span>Recommend Books</span>
       </div>
     </template>
-    <div class="container">
-      <div v-for="book in dashboard.recomendBooks" :key="book.ISBN">
-        <book-card 
-          @clickBtn="addToLists"
-          btnName="add to lists"
-          :img="book.img"
-          :name="book.name"
-          :author="book.author"
-          :location="book.location"
-          :ISBN="book.ISBN"
-        ></book-card>
-      </div>
-    </div>
   </el-card>
   
 </template>
@@ -50,23 +37,9 @@ const dashboard = reactive({
   booklists: Array<unknown>(),
   borrowedBooks: Array<unknown>(),
   historyBorrowedBooks: Array<unknown>(),
-  recomendBooks: Array<unknown>(),
   fee: 0,
 })
 
-const addToLists = (book: any) => {
-  console.log(book.ISBN, store.state.shopLists)
-  const flag = store.state.shopLists.some((item: any) => {
-    return item.ISBN == book.ISBN
-  });
-  console.log(flag)
-  if(flag == false) {
-    store.commit('addToLists', book)
-    success('success');
-  }else {
-    error('You have added the same book')
-  }
-}
 
 onMounted(async () => {
   let  res  = await getBorrowedBookLists({username: dashboard.username})
@@ -87,17 +60,6 @@ onMounted(async () => {
     dashboard.fee += book.fee
     console.log('fee', book.fee)
   }) 
-
-  const rand = Math.floor(Math.random()%dashboard.booklists.length);
-  for(let i = rand, j = 1;j <= 5;j ++) {
-    dashboard.recomendBooks.push(dashboard.booklists[i]);
-    i ++;
-    i %= dashboard.booklists.length;
-    if(i == rand) break;
-  }
-
-  
-
 })
 </script>
 

@@ -16,6 +16,8 @@ import DeleteBook from "@/components/Staff/DeleteBook.vue"
 import UpdateBook from "@/components/Staff/UpdateBook.vue"
 import BorrowBook from "@/components/Staff/BorrowBook.vue"
 import StaffCreateAccount from "@/components/Staff/CreateAccount.vue"
+import BorrowHistory from "@/components/Staff/History/BorrowHistory.vue"
+import ReturnHistory from "@/components/Staff/History/ReturnHistory.vue"
 
 import Administrator from "@/components/Administrator/Administrator.vue"
 import Permission from "@/components/Administrator/Permission.vue"
@@ -91,7 +93,15 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/Staff/CreateAccount',
         component: StaffCreateAccount
-      }
+      },
+      {
+        path: '/Staff/History/Borrow',
+        component: BorrowHistory
+      },
+      {
+        path: '/Staff/History/Return',
+        component: ReturnHistory
+      },
     ]
   },
   {

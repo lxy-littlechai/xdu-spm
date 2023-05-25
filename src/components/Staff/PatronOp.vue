@@ -19,7 +19,7 @@
         </el-form-item>
         <el-table :data="formData.borrowedBookLists" style="width: 100%">
           <el-table-column fixed prop="ISBN" label="ISBN" width="150" />
-          <el-table-column prop="id" label="ID" width="150" />
+          <el-table-column prop="borrowId" label="ID" width="150" />
           <el-table-column prop="name" label="Name" width="120" />
           <el-table-column prop="author" label="Author" width="120" />
           <el-table-column prop="startTime" label="StartTime" width="120" />
@@ -53,7 +53,6 @@ import { Search } from '@element-plus/icons-vue'
 import { getBorrowedBookLists } from '@/api/modules/Patron';
 import { returnBook, confirmPay } from '@/api/modules/Staff';
 import {success, error} from "@/api"
-import { calculateFee } from '@/api'
 import qrcodeVue from "qrcode.vue"
 import { useStore } from 'vuex';
 const store = useStore();
@@ -79,7 +78,7 @@ const QRConfirm = async () => {
     const { data } = await returnBook(QR.data);
     console.log(data)
     if (data.success) {
-      success()
+      success("")
       QR.QRVisible = false;
       searchPatron()
     } else {
@@ -95,27 +94,20 @@ const searchPatron = async() => {
   const username = formData.patronName
   const { data } = await getBorrowedBookLists({username});
   if(data.result == false) {
-    error("No this patron");
+    error("No Data");
     return ;
   }
   console.log(data)
-  const booklists = data.result.map((item: any) => {
-    item.startTime = item.startTime.substring(0, 10);
-    console.log(item.startTime)
-    item.fee = calculateFee(item.startTime);
-    item.activeUser = store.state.username;
-    return item;
-  })
-  formData.borrowedBookLists = [...booklists];
+  formData.borrowedBookLists = data.result;
 }
 
 const returnPatronBook = async(book: any) => {
-      console.log(calculateFee(book.startTime))
-      if (calculateFee(book.startTime) == 0) {
+      if (book.fee == 0) {
+        book.activeUser = formData.patronName;
         const { data } = await returnBook(book);
         if (data.success) {
           await searchPatron()
-          success()
+          success("")
           
         } else {
           error("Network Error");
@@ -123,7 +115,7 @@ const returnPatronBook = async(book: any) => {
         return;
       }
       else {
-        (QR.fee as any) = calculateFee(book.startTime);
+        (QR.fee as any) = book.fee;
         (QR.data as any) = book;
         QR.QRcode = JSON.stringify(book);
         QR.QRVisible = true;
