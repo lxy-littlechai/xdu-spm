@@ -12,9 +12,9 @@
     <el-form-item label="Account name" prop="username">
       <el-input v-model="account.username" />
     </el-form-item>
-    <!-- <el-form-item label="Account password" prop="password">
+    <el-form-item label="Account password" prop="password">
       <el-input v-model="account.password" type="password" />
-    </el-form-item> -->
+    </el-form-item>
     <el-form-item label="Account permission" prop="permission">
       <el-select v-model="account.permission" placeholder="Permission">
         <el-option label="Patron" value="Patron" />
@@ -22,6 +22,9 @@
 <!--         <el-option label="Administrator" value="Administrator" />
         <el-option label="Superuser" value="Superuser" /> -->
       </el-select>
+    </el-form-item>
+    <el-form-item label="Account email" prop="email">
+      <el-input v-model="account.email" />
     </el-form-item>
 
     <el-form-item>
@@ -46,20 +49,24 @@ const accountRef = ref<FormInstance>();
 const account = reactive({
   activeUser: store.state.username,
   username: "",
-  password: "123456",
+  password: "",
   permission: "",
+  email: ""
 })
 
 const rules = reactive<FormRules>({
   username: [
     { required: true, trigger: 'change'},
   ],
-/*   password: [
+  password: [
     { required: true, trigger: 'change' },
-  ], */
+  ],
   permission: [
     { required: true,  trigger: 'change'},
   ],
+  email: [
+    { type: 'email', required: true, trigger: 'change', message: "邮箱格式错误"},
+  ]
 
 })
 const submitForm = async (formEl: FormInstance | undefined) => {

@@ -54,16 +54,6 @@ const account = reactive({
   email: ""
 })
 
-const emailCheck = (rule: any, value: any, cb: any) => {
-      //验证邮箱的正则表达式
-      const regEmail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-      if (regEmail.test(value)) {
-        //合法的邮箱
-        return cb();
-      }
-      cb(new Error("请输入合法的邮箱"));
-    };
-
 const rules = reactive<FormRules>({
   username: [
     { required: true, trigger: 'change'},
@@ -75,8 +65,7 @@ const rules = reactive<FormRules>({
     { required: true,  trigger: 'change'},
   ],
   email: [
-    { required: true, trigger: 'change'},
-    { validator: emailCheck, message: "邮箱格式错误"}
+    { type: 'email', required: true, trigger: 'change', message: "邮箱格式错误"},
   ]
 
 })
