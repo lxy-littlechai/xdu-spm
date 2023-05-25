@@ -30,11 +30,10 @@
 
 <script lang="ts" setup>
 import { Check } from '@element-plus/icons-vue'
-import { reactive, onMounted, TrackOpTypes } from 'vue';
+import { reactive, onMounted} from 'vue';
 import { getBorrowedBookLists } from '@/api/modules/Patron';
 import { borrowBook } from '@/api/modules/Staff';
 import { useStore } from 'vuex'
-import { caculateFee } from '@/api'
 import { success, error, getNowFormatDate } from "@/api"
 import bookCard from "@/components/Public/bookCard.vue";
 

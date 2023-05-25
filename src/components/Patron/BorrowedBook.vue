@@ -14,6 +14,7 @@
           :startTime="book.startTime"
           :fee="book.fee"
           status="on loan"
+          :freeKeepDays="book.freeKeepDays"
         ></book-card>
       </div>
     </div>
@@ -22,11 +23,9 @@
 </template>
 
 <script lang="ts" setup>
-import { Search } from '@element-plus/icons-vue'
 import { reactive, onMounted } from 'vue';
 import { getBorrowedBookLists } from '@/api/modules/Patron';
 import { useStore } from 'vuex'
-import { calculateFee } from '@/api'
 import { success, error } from '@/api';
 import bookCard from "@/components/Public/bookCard.vue";
 
@@ -52,13 +51,7 @@ onMounted(async () => {
   const username = store.state.username;
   const { data } = await getBorrowedBookLists({username});
   console.log(data)
-  const booklists = data.result.map((item: any) => {
-    item.startTime = item.startTime.substring(0, 10);
-    console.log(item.startTime)
-    item.fee = calculateFee(item.startTime);
-    return item;
-  })
-  results.bookLists = [...booklists];
+  results.bookLists = data.result
   
 })
 

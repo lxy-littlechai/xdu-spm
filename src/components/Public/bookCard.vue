@@ -18,14 +18,15 @@
         <div v-if="props.startTime">StartTime: {{ props.startTime }}</div>
         <div v-if="props.fee">Fee: {{ props.fee }}</div>
         <div v-if="props.status">Status: {{ props.status }}</div>
-        <div v-if="props.status == 'on loan'">Remaining Days: {{ free4BorrowDays - getDay(props.startTime) }}</div>
+        <div v-if="props.status == 'on loan'">Remaining Days: {{ Math.max(Number(props.freeKeepDays), 0) }}</div>
       </el-main>
     </el-container>
   </el-card>
 </template>
 
 <script lang="ts" setup>
-import { free4BorrowDays, getDay } from '@/api';
+import { getSystemOption } from "@/api/modules/Administrators"
+
 
 const props = defineProps({
   btnName: String,
@@ -37,7 +38,8 @@ const props = defineProps({
   ISBN: String,
   fee: String || Number,
   startTime: String,
-  status: String
+  status: String,
+  freeKeepDays: String || Number
 })
 
 const emits = defineEmits([
@@ -47,6 +49,8 @@ const emits = defineEmits([
 const handleClick = () => {
   emits('clickBtn', props);
 }
+
+
 
 
 </script>

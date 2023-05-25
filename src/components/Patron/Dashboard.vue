@@ -40,7 +40,7 @@
 import { reactive, onMounted } from "vue"
 import { useStore } from "vuex"
 import { getBookLists, getBorrowedBookLists, getHistoryBookLists } from "@/api/modules/Patron"
-import { calculateFee ,success, error } from "@/api"
+import { success, error } from "@/api"
 import bookCard from "@/components/Public/bookCard.vue";
 
 
@@ -101,7 +101,7 @@ onMounted(async () => {
 })
 </script>
 
-<style>
+<style lang="scss">
 .container {
   display: flex;
   flex-wrap: wrap;

@@ -41,10 +41,19 @@ const setSystemOption = (data: any) => {
   })
 }
 
+const getSystemOption = (data: any) => {
+  return baseInstance({
+    url: "/Administrator/GetSystemOption",
+    method: "post",
+    data
+  })
+}
+
 export {
   createAccount,
   changePermission,
   getAccount,
   deleteAccount,
-  setSystemOption
+  setSystemOption,
+  getSystemOption
 }

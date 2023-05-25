@@ -36,35 +36,6 @@ export const getNowFormatDate = () => {
   return `${year}-${month}-${strDate}`
 }
 
-export const free4BorrowDays = 14;
-
-export const getDay = (startTime: any) => {
-  let sec = new Date().getTime() - new Date(startTime).getTime();
-  let day = Math.floor(sec / 86400000)
-  return day;
-}
-
-export const calculateFee = (startTime: any) => {
-  let fee = Math.max(0, getDay(startTime) - free4BorrowDays);
-  return fee
-}
-
-export const checkFeeLimit = async (username: string) => {
-  const feeLimit = 10;
-  let check = true;
-  const { data } = await getBorrowedBookLists({ username });
-  const booklists = data.result.map((item: any) => {
-    item.startTime = item.startTime.substring(0, 10);
-    item.fee = calculateFee(item.startTime);
-    if (item.fee > feeLimit) {
-      check = false;
-    }
-    return item;
-  })
-  console.log(check);
-  return check;
-}
-
 export const loginAccount = (data: any) => {
   return baseInstance({
     url: "/Login",

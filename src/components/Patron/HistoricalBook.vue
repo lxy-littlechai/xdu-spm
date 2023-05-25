@@ -49,13 +49,7 @@ onMounted(async () => {
   const username = store.state.username;
   const { data } = await getHistoryBookLists({username});
   console.log(data)
-  const booklists = data.result.map((item: any) => {
-    //item.startTime = item.startTime.substring(0, 10);
-    console.log(item.startTime)
-    //item.fee = caculateFee(item.startTime);
-    return item;
-  })
-  results.bookLists = [...booklists];
+  results.bookLists = data.result;
   
 })
 

@@ -2,7 +2,7 @@
   <div class="common-layout">
     <el-container>
       <el-header>Welcome to the British Library
-        <div class="flex-grow" />
+        <div class="flex-grow" ></div>
         <el-button @click="logout">Logout</el-button>
       </el-header>
 
@@ -24,21 +24,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onMounted } from 'vue'
 import { useStore } from 'vuex';
-import { checkFeeLimit,  warning} from "@/api"
 import { useRouter } from "vue-router"
 const router = useRouter();
 
 const store = useStore();
-onMounted(() => {
-  const feeCheck = checkFeeLimit(store.state.username);
-  feeCheck.then((res) => {
-    if(res == false) {
-     warning("There are some books have been over due")
-    }
-  })
-})
+
 
 const logout = () => router.push({
   path: "/"
