@@ -22,9 +22,10 @@
                 <el-menu-item index="/Staff/AddBook">Add a book</el-menu-item>
                 <el-menu-item index="/Staff/DeleteBook">Delete a book</el-menu-item>
                 <!-- <el-menu-item index="/Staff/UpdateBook">Update a book</el-menu-item> -->
-                <el-menu-item index="/Staff/BorrowBook">Borrow a book</el-menu-item>
+                <!-- <el-menu-item index="/Staff/BorrowBook">Borrow a book</el-menu-item> -->
               </el-menu-item-group>
             </el-sub-menu>
+            <el-menu-item index="/Staff/CreateAccount">Register a patron</el-menu-item>
               
           </el-menu>
         </el-aside>

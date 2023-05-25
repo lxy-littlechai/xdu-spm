@@ -15,6 +15,7 @@ import AddBook from "@/components/Staff/AddBook.vue"
 import DeleteBook from "@/components/Staff/DeleteBook.vue"
 import UpdateBook from "@/components/Staff/UpdateBook.vue"
 import BorrowBook from "@/components/Staff/BorrowBook.vue"
+import StaffCreateAccount from "@/components/Staff/CreateAccount.vue"
 
 import Administrator from "@/components/Administrator/Administrator.vue"
 import Permission from "@/components/Administrator/Permission.vue"
@@ -57,7 +58,8 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/Patron/ShopLists',
         component: WishLists
-      }
+      },
+
     ]
   },
   {
@@ -85,6 +87,10 @@ const routes: Array<RouteRecordRaw> = [
         path: '/Staff/BorrowBook',
         component: BorrowBook,
       },
+      {
+        path: '/Staff/CreateAccount',
+        component: StaffCreateAccount
+      }
     ]
   },
   {
