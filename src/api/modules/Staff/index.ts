@@ -92,4 +92,25 @@ const payFee = (data: any) => {
   });
 }
 
-export { getBookFromLocal, addBookToLocal, getBookFromCloud, getBookByISBN, addBook, deleteBook, updateBook, returnBook, borrowBook, payFee, confirmPay };
+const alipay = (data: any) => {
+  return baseInstance({
+    url: "/Staff/alipay",
+    method: "post",
+    data
+  });
+}
+
+export {
+  getBookFromLocal,
+  addBookToLocal,
+  getBookFromCloud,
+  getBookByISBN,
+  addBook,
+  deleteBook,
+  updateBook,
+  returnBook,
+  borrowBook,
+  payFee,
+  confirmPay,
+  alipay
+};

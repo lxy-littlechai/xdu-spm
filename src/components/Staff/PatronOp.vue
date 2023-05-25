@@ -34,7 +34,8 @@
       </el-card>
     </div>
   </el-form>
-  <el-dialog v-model="QR.QRVisible" :title="'Scan the QR to pay $' + QR.fee" width="30%" :before-close="QRClose" center="true">
+  
+<!--   <el-dialog v-model="QR.QRVisible" :title="'Scan the QR to pay $' + QR.fee" width="30%" :before-close="QRClose" center="true">
     <qrcode-vue :value="QR.QRcode" :size="200"></qrcode-vue>
     <template #footer>
       <span class="dialog-footer">
@@ -44,24 +45,26 @@
         </el-button>
       </span>
     </template>
-  </el-dialog>
+  </el-dialog> -->
 </template>
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
 import { Search } from '@element-plus/icons-vue'
 import { getBorrowedBookLists } from '@/api/modules/Patron';
-import { returnBook, confirmPay } from '@/api/modules/Staff';
+import { returnBook, confirmPay, alipay } from '@/api/modules/Staff';
 import {success, error} from "@/api"
-import qrcodeVue from "qrcode.vue"
+import { useRoute, useRouter } from 'vue-router';
+/* import qrcodeVue from "qrcode.vue" */
 import { useStore } from 'vuex';
 const store = useStore();
+const router = useRouter();
 
 const formData = reactive({
   patronName: "",
   borrowedBookLists: ""
 })
-const QR = reactive({
+/* const QR = reactive({
   QRVisible: false,
   data: "",
   fee: "",
@@ -88,7 +91,7 @@ const QRConfirm = async () => {
   else {
     error("You haven't pay the fee")
   }
-}
+} */
 
 const searchPatron = async() => {
   const username = formData.patronName
@@ -115,10 +118,21 @@ const returnPatronBook = async(book: any) => {
         return;
       }
       else {
-        (QR.fee as any) = book.fee;
-        (QR.data as any) = book;
-        QR.QRcode = JSON.stringify(book);
-        QR.QRVisible = true;
+        const { data } = await alipay(book);
+        let newPage = window.open(data.result)
+        if(newPage) {
+          let interval = setInterval(async ()=>{
+            if(newPage?.closed) {
+              console.log('close')
+              const { data } = await returnBook(book);
+              await searchPatron()
+              success("")
+              clearInterval(interval);
+              return ;
+            }
+          }, 1000)
+        }
+        
       }
   
 }
