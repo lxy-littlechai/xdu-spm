@@ -69,7 +69,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/Staff',
     component: Staff,
-    redirect: '/Staff/PatronInfo',
+    redirect: '/Staff/Dashboard',
     children: [
       {
         path: '/Staff/PatronInfo',

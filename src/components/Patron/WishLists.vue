@@ -33,6 +33,7 @@ import { Check } from '@element-plus/icons-vue'
 import { reactive, onMounted} from 'vue';
 import { getBorrowedBookLists } from '@/api/modules/Patron';
 import { borrowBook } from '@/api/modules/Staff';
+import { getSystemOption } from '@/api/modules/Administrators';
 import { useStore } from 'vuex'
 import { success, error, getNowFormatDate } from "@/api"
 import bookCard from "@/components/Public/bookCard.vue";
@@ -54,7 +55,11 @@ const borrowLists = async () => {
   const username = store.state.username;
   const { data } = await getBorrowedBookLists({username});
   console.log(data.result, results.bookLists.length)
-  if(data.result.length + results.bookLists.length > 5) {
+
+  let option = await getSystemOption({});
+  console.log('system',option.data)
+  const borrowLimit = option.data.result[0].borrowLimit;
+  if(data.result.length + results.bookLists.length > borrowLimit) {
     error("The max borrowed limits is 5");
     return ;
   }

@@ -63,12 +63,16 @@ const search = async() => {
 }
 
 const addToLists = (book: any) => {
-  console.log(book.ISBN, store.state.shopLists)
+  console.log(book, store.state.shopLists)
   const flag = store.state.shopLists.some((item: any) => {
     return item.ISBN == book.ISBN
   });
   console.log(flag)
   if(flag == false) {
+    if(Number(book.number) <= 0) {
+        error("No enough book");
+        return;
+    }
     store.commit('addToLists', book)
     success('success');
   }else {

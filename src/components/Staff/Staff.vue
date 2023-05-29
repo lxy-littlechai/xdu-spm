@@ -8,12 +8,11 @@
 
       <el-container class="layout-container">
         <el-aside width="250px">
-          <el-menu router="true" default-active="/Staff/Dashboard" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+          <el-menu router="true" default-active="/Staff/Dashboard" class="el-menu-vertical-demo">
             <el-menu-item index="/Staff/Dashboard">
               <span>Dashboard</span>
             </el-menu-item>
             <el-menu-item index="/Staff/PatronInfo">
-              <!-- <el-icon><icon-menu /></el-icon> -->
               <span>Patron Operation</span>
             </el-menu-item>
             <el-sub-menu index="1">
@@ -24,7 +23,7 @@
               <el-menu-item-group>
                 <el-menu-item index="/Staff/AddBook">Add a book</el-menu-item>
                 <el-menu-item index="/Staff/DeleteBook">Delete a book</el-menu-item>
-                <!-- <el-menu-item index="/Staff/UpdateBook">Update a book</el-menu-item> -->
+                <el-menu-item index="/Staff/UpdateBook">Update a book</el-menu-item>
                 <el-menu-item index="/Staff/BorrowBook">Borrow a book</el-menu-item>
               </el-menu-item-group>
             </el-sub-menu>

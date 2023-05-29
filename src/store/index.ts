@@ -1,5 +1,6 @@
 import { number } from "echarts";
 import { createStore } from "vuex";
+import { error } from "@/api";
 
 export default createStore({
   state: {

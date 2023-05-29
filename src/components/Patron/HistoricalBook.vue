@@ -3,8 +3,6 @@
     <div class="container">
       <div v-for="book in results.bookLists" :key="book.ISBN" >
         <book-card 
-          @clickBtn="addToLists"
-          btnName="add to lists"
           :img="book.img"
           :name="book.name"
           :author="book.author"

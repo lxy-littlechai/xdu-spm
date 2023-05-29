@@ -13,13 +13,6 @@
     
     
   </el-card>
-  <el-card style="margin-top: 30px;">
-    <template #header>
-      <div class="card-header">
-        <span>Recommend Books</span>
-      </div>
-    </template>
-  </el-card>
   
 </template>
 
@@ -49,9 +42,10 @@ onMounted(async () => {
     label: ''
   });
   dashboard.booklists = res.data.result
-  console.log(res.data)
+  console.log('lisy',res.data)
 
   res = await getHistoryBookLists({username: dashboard.username})
+  console.log('his', res.data.result)
   dashboard.historyBorrowedBooks = res.data.result
 
   dashboard.borrowedBooks.map((book: any)=> {

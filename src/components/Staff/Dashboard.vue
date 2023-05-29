@@ -8,15 +8,11 @@
 
     <div class="flex">
 
-      <!-- 书数据 -->
+
         <div class="flex" style="width: 60%;">
           <div>Total Books: {{ data.totalNumber }}</div>
           <div>Borrowed Books: {{ data.borrowedBooklist.length }}</div>
           <div>Storage Books: {{ data.totalNumber - data.borrowedBooklist.length }}</div>
-        </div>
-
-      <!-- 用户数据 -->
-        <div class="flex">
           <div>Total Patron: {{ data.userlist.length }}</div>
       </div>
 

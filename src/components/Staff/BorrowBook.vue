@@ -42,8 +42,9 @@ import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import { getBookByISBN, borrowBook } from '@/api/modules/Staff';
+import { getBorrowedBookLists } from '@/api/modules/Patron';
+import { getSystemOption } from '@/api/modules/Administrators';
 import { success, error, getNowFormatDate } from "@/api"
-import { checkFeeLimit } from '@/api'
 import { useStore } from 'vuex';
 const store = useStore();
 
@@ -133,24 +134,32 @@ const clear = (formEl: FormInstance | undefined) => {
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async (valid, fields) => {
-    let checkFeeResult = await checkFeeLimit(formData.name);
-    console.log(checkFeeResult)
-    if(Number(ruleForm.book.resNumber) <= 0) {
+
+  const username = formData.name;
+  const { data } = await getBorrowedBookLists({username});
+  
+
+  let option = await getSystemOption({});
+  console.log('system',option.data)
+  const borrowLimit = option.data.result[0].borrowLimit;
+  if(Number(ruleForm.book.resNumber) <= 0) {
       error("There are not enough book")
       return ;
     }
-    if(checkFeeResult == false) {
-      clear(formEl)
-      error("This patron has a fee to pay off")
-      return ;
-    }
+    
+  if(data.result.length + 1 > borrowLimit) {
+    error("The max borrowed limits is 5");
+    return ;
+  }
+    
+
 
     if (valid) {
-      const body = Object.assign(ruleForm.book, {username: formData.username, startTime: getNowFormatDate()})
+      const body = Object.assign(ruleForm.book, {username: formData.name, startTime: getNowFormatDate()})
       console.log(body)
       const { data } = await borrowBook(body);
       if (data.success) {
-        success()
+        success("")
         clear(formEl)
       } else {
         error("Network Error");

@@ -25,8 +25,6 @@
 </template>
 
 <script lang="ts" setup>
-import { getSystemOption } from "@/api/modules/Administrators"
-
 
 const props = defineProps({
   btnName: String,
